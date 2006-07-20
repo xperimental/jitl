@@ -1,6 +1,10 @@
 package net.sourceforge.jitl.astro;
 
 public class Location {
+	
+	static final double DEFAULT_SEA_LEVEL = 0;
+	static final double DEFAULT_PRESSURE = 1010;
+	static final double DEFAULT_TEMPERATURE = 10;
     
 	private	double degreeLong;  /* Longitude in decimal degree. */
 	private double degreeLat;   /* Latitude in decimal degree. */
@@ -13,6 +17,21 @@ public class Location {
                            astronomical standard value is 1010) */
 	private double temperature; /* Temperature in Celsius degree (the astronomical
                            standard value is 10) */
+	
+	public Location copy() {
+		Location loc = new Location();
+
+		// copy all fields
+		loc.setDegreeLat(degreeLat);
+		loc.setDegreeLong(degreeLong);
+		loc.setGmtDiff(gmtDiff);
+		loc.setDst(dst);
+		loc.setSeaLevel(seaLevel);
+		loc.setPressure(pressure);
+		loc.setTemperature(temperature);
+		
+		return loc;		
+	}
 	public double getDegreeLat() {
 		return degreeLat;
 	}

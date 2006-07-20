@@ -138,11 +138,13 @@ public class Itl {
 	                                        (invalid == 0)))
 	    {
 	        double exdecPrev, exdecNext;
-	        double exTh=99, exFj=99, exIs=99, exAr=99, exIm=99, exSh=99, exMg=99;
+	        double exTh=99, exFj=99, exIs=99, exAr=99, exSh=99, exMg=99; 
+	        //exIm=99
+	        
 	        double portion = 0;
 	        double nGoodDay = 0;
 	        int exinterval = 0;
-	        Location exLoc = loc; //TODO
+	        Location exLoc = loc.copy();
 	        Astro exAstroPrev;
 	        Astro exAstroNext;
 
@@ -157,7 +159,7 @@ public class Itl {
 	             * angle==0 . Only the if-invalid methods would work */
 	            exLoc.setDegreeLat(conf.getNearestLat());
 	            exFj = getFajIsh(conf.getNearestLat(), dec, conf.getFajrAng());
-	            exIm = getFajIsh(conf.getNearestLat(), dec, conf.getImsaakAng());
+	            //exIm = getFajIsh(conf.getNearestLat(), dec, conf.getImsaakAng());
 	            exIs = getFajIsh(conf.getNearestLat(), dec, conf.getIshaaAng());
 	            exAr = getAssr(conf.getNearestLat(), dec, conf.getMathhab());
 	            exSh = getShoMag (exLoc, tAstro, Prayer.SHUROOQ);
