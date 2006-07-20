@@ -56,7 +56,7 @@ public class Itl {
 		this.conf = conf; 		
 	}
 	
-	public void getPrayerTimes (final Date date,  Prayer[] pt)
+	public void getPrayerTimes (final Date date,  DayPrayers pt)
 	{  
 	    DayCouple dc;
 
@@ -65,11 +65,11 @@ public class Itl {
 	}
 
 	 
-	void getPrayerTimesByDay (DayCouple dc, Prayer[] pt, int type) {		
+	void getPrayerTimesByDay (DayCouple dc, DayPrayers pt, int type) {		
 		getPrayerTimesByDay(conf, dc, pt, type);
 	}
 
-	void getPrayerTimesByDay (Method conf, DayCouple dc, Prayer[] pt, int type)
+	void getPrayerTimesByDay (Method conf, DayCouple dc, DayPrayers pt, int type)
 	{
 	    int i, invalid;
 	    double th, sh, mg, fj, is, ar;
@@ -127,8 +127,7 @@ public class Itl {
 	     * needed) */
 	  
 	    /* Reset status of extreme switches */
-	    for (i=0; i<6; i++)
-	        pt[i].setIsExtreme(0); 
+	    pt.setAllExtreme(0);
 	     
 	     
 	    if ((conf.getExtreme() != NONE_EX) && !((conf.getExtreme() == GOOD_INVALID || 
@@ -173,29 +172,24 @@ public class Itl {
 	                tempPrayer[3] = th + exAr;
 	                tempPrayer[4] = exMg;
 	                tempPrayer[5] = th + exIs;
-	                pt[0].setIsExtreme(1);
-	                pt[1].setIsExtreme(1);
-	                pt[2].setIsExtreme(1);
-	                pt[3].setIsExtreme(1);
-	                pt[4].setIsExtreme(1);
-	                pt[5].setIsExtreme(1);
+	                pt.setAllExtreme(1);
 	                break;
 	        
 	            case LAT_ALWAYS:
 	                tempPrayer[0] = th - exFj;
 	                tempPrayer[5] = th + exIs;
-	                pt[0].setIsExtreme(1);
-	                pt[5].setIsExtreme(1);
+	                pt.fajr().setIsExtreme(1);
+	                pt.ishaa().setIsExtreme(1);
 	                break;
 	        
 	            case LAT_INVALID:
 	                if (tempPrayer[0] == 99) {
 	                    tempPrayer[0] = th - exFj;
-	                    pt[0].setIsExtreme(1);
+	                    pt.fajr().setIsExtreme(1);
 	                }
 	                if (tempPrayer[5] == 99) {
 	                    tempPrayer[5] = th + exIs;
-	                    pt[5].setIsExtreme(1);
+	                    pt.ishaa().setIsExtreme(1);
 	                }
 	                break;
 	            }
@@ -262,17 +256,17 @@ public class Itl {
 	                tempPrayer[3] = exTh + exAr;
 	                tempPrayer[4] = exMg;
 	                tempPrayer[5] = exTh + exIs;
-	                for (i=0; i<6; i++)
-	                    pt[i].setIsExtreme (1);
+	                pt.setAllExtreme(1);
+
 	                break;
 	            case GOOD_INVALID:
 	                if (tempPrayer[0] == 99) {
 	                    tempPrayer[0] = exTh - exFj;
-	                    pt[0].setIsExtreme(1);
+	                    pt.fajr().setIsExtreme(1);
 	                }
 	                if (tempPrayer[5] == 99) {
 	                    tempPrayer[5] = exTh + exIs;
-	                    pt[5].setIsExtreme(1);
+	                    pt.ishaa().setIsExtreme(1);
 	                }
 	                break;
 
@@ -317,13 +311,13 @@ public class Itl {
 	                    if  (conf.getExtreme() == HALF_INVALID)
 	                        tempPrayer[0] =  portion - (conf.getFajrInv() / 60.0);
 	                    else tempPrayer[0] = tempPrayer[1] - portion;
-	                    pt[0].setIsExtreme(1);
+	                    pt.fajr().setIsExtreme(1);
 	                }
 	                if (tempPrayer[5] == 99) {
 	                    if  (conf.getExtreme() == HALF_INVALID)
 	                        tempPrayer[5] = portion + (conf.getIshaaInv() / 60.0) ;
 	                    else tempPrayer[5] = tempPrayer[4] + portion;
-	                    pt[5].setIsExtreme(1);
+	                    pt.ishaa().setIsExtreme(1);
 	                }
 	            } else { /* for the always methods */
 	                
@@ -336,8 +330,8 @@ public class Itl {
 	                    tempPrayer[0] = tempPrayer[1] - portion;
 	                    tempPrayer[5] = tempPrayer[4] + portion;
 	                }
-	                pt[0].setIsExtreme (1);
-	                pt[5].setIsExtreme (1);
+	                pt.fajr().setIsExtreme (1);
+	                pt.ishaa().setIsExtreme (1);
 	            }
 	            break;
 
@@ -346,20 +340,20 @@ public class Itl {
 	             * ishaaInv structure members */
 	            tempPrayer[0] = tempPrayer[1];
 	            tempPrayer[5] = tempPrayer[4];
-	            pt[0].setIsExtreme(1);
-	            pt[5].setIsExtreme(1);
+	            pt.fajr().setIsExtreme(1);
+	            pt.ishaa().setIsExtreme(1);
 	            break;
 	      
 	        case MIN_INVALID:
 	            if (tempPrayer[0] == 99) {
 	                exinterval = (int)((double)conf.getFajrInv() / 60.0);
 	                tempPrayer[0] = tempPrayer[1] - exinterval;
-	                pt[0].setIsExtreme(1);
+	                pt.fajr().setIsExtreme(1);
 	            }
 	            if (tempPrayer[5] == 99) {
 	                exinterval = (int)((double)conf.getIshaaInv() / 60.0);
 	                tempPrayer[5] = tempPrayer[4] + exinterval;
-	                pt[5].setIsExtreme(1);
+	                pt.ishaa().setIsExtreme(1);
 	            }
 	            break;
 	        } /* end switch */
@@ -380,10 +374,12 @@ public class Itl {
 	    /* Final Step: Fill the Prayer array by doing decimal degree to
 	     * Prayer structure conversion*/
 	    if (type == Prayer.IMSAAK || type == Prayer.NEXTFAJR)
-	        base6hm(tempPrayer[0], conf, pt[0], type);
+	        base6hm(tempPrayer[0], conf, pt.fajr(), type);
 	    else {
-	        for (i=0; i<6; i++)
-	            base6hm(tempPrayer[i], conf, pt[i], i);
+	        Prayer[] pArray = pt.getPrayers();
+	    	for (i=0; i<6; i++) {
+	            base6hm(tempPrayer[i], conf, pArray[i], i);
+	    	}
 	    }
 
 	}
@@ -478,10 +474,7 @@ public class Itl {
 
 	    Method tmpConf;
 	    DayCouple dc;
-	    Prayer temp[] = new Prayer[6];
-	    for(int i=0;i<6;i++) {
-	    	temp[i] = new Prayer();
-	    }
+	    DayPrayers temp = new DayPrayers();
 
 	    tmpConf = conf.copy();
 
@@ -505,7 +498,7 @@ public class Itl {
 	     * Imsaak normally for some extreme methods first */
 	    /* In case of an extreme Fajr time calculation use intervals for Imsaak and
 	     * compute again */
-	    if (temp[0].getIsExtreme() != 0)
+	    if (temp.fajr().getIsExtreme() != 0)
 	    {
 	        tmpConf = conf.copy();
 	        if ( conf.getImsaakInv() == 0)
@@ -520,7 +513,7 @@ public class Itl {
 	        getPrayerTimesByDay( tmpConf, dc, temp, Prayer.IMSAAK);
 	    }
 	    
-	    pt = temp[0].copy();
+	    pt = temp.fajr().copy();
 	}
 
 	public void getNextDayImsaak (Date date, 
@@ -541,17 +534,13 @@ public class Itl {
 	                     Prayer pt)
 	{
 
-	    Prayer temp[] = new Prayer[6];
-	    for (int i=0;i<6;i++) {
-	    	temp[i] = new Prayer();
-	    }
+	    DayPrayers temp = new DayPrayers();
 	    DayCouple dc;
 
 	    dc = getDayInfo ( date, loc.getGmtDiff());
 	    dc.setJulianDay(dc.getJulianDay() + 1);
-	    getPrayerTimesByDay(dc, temp, Prayer.NEXTFAJR);
-	 
-	    pt = temp[0].copy(); 
+	    getPrayerTimesByDay(dc, temp, Prayer.NEXTFAJR);	 
+	    pt = temp.fajr().copy(); 
 	}
 
 
