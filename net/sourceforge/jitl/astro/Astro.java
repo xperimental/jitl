@@ -1,3 +1,7 @@
+/**
+ *  Most of the astronomical values and formulas used in this file are
+ *  based on the Jean Meeus subset of the VSOP87 planetary theory.
+ */
 package net.sourceforge.jitl.astro;
 
 public class Astro {

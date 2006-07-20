@@ -12,9 +12,9 @@ public class DayPrayers {
 		}
 	}
 	
-	public void setAllExtreme(int b) {
+	public void setAllExtreme(boolean b) {
 		for(int i=0; i<6; i++) {
-			prayers[i].setIsExtreme(b);
+			prayers[i].setExtreme(b);
 		}
 	}
 	

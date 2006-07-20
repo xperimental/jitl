@@ -127,7 +127,7 @@ public class Itl {
 	     * needed) */
 	  
 	    /* Reset status of extreme switches */
-	    pt.setAllExtreme(0);
+	    pt.setAllExtreme(false);
 	     
 	     
 	    if ((conf.getExtreme() != NONE_EX) && !((conf.getExtreme() == GOOD_INVALID || 
@@ -174,24 +174,24 @@ public class Itl {
 	                tempPrayer[3] = th + exAr;
 	                tempPrayer[4] = exMg;
 	                tempPrayer[5] = th + exIs;
-	                pt.setAllExtreme(1);
+	                pt.setAllExtreme(true);
 	                break;
 	        
 	            case LAT_ALWAYS:
 	                tempPrayer[0] = th - exFj;
 	                tempPrayer[5] = th + exIs;
-	                pt.fajr().setIsExtreme(1);
-	                pt.ishaa().setIsExtreme(1);
+	                pt.fajr().setExtreme(true);
+	                pt.ishaa().setExtreme(true);
 	                break;
 	        
 	            case LAT_INVALID:
 	                if (tempPrayer[0] == 99) {
 	                    tempPrayer[0] = th - exFj;
-	                    pt.fajr().setIsExtreme(1);
+	                    pt.fajr().setExtreme(true);
 	                }
 	                if (tempPrayer[5] == 99) {
 	                    tempPrayer[5] = th + exIs;
-	                    pt.ishaa().setIsExtreme(1);
+	                    pt.ishaa().setExtreme(true);
 	                }
 	                break;
 	            }
@@ -258,17 +258,17 @@ public class Itl {
 	                tempPrayer[3] = exTh + exAr;
 	                tempPrayer[4] = exMg;
 	                tempPrayer[5] = exTh + exIs;
-	                pt.setAllExtreme(1);
+	                pt.setAllExtreme(true);
 
 	                break;
 	            case GOOD_INVALID:
 	                if (tempPrayer[0] == 99) {
 	                    tempPrayer[0] = exTh - exFj;
-	                    pt.fajr().setIsExtreme(1);
+	                    pt.fajr().setExtreme(true);
 	                }
 	                if (tempPrayer[5] == 99) {
 	                    tempPrayer[5] = exTh + exIs;
-	                    pt.ishaa().setIsExtreme(1);
+	                    pt.ishaa().setExtreme(true);
 	                }
 	                break;
 
@@ -313,13 +313,13 @@ public class Itl {
 	                    if  (conf.getExtreme() == HALF_INVALID)
 	                        tempPrayer[0] =  portion - (conf.getFajrInv() / 60.0);
 	                    else tempPrayer[0] = tempPrayer[1] - portion;
-	                    pt.fajr().setIsExtreme(1);
+	                    pt.fajr().setExtreme(true);
 	                }
 	                if (tempPrayer[5] == 99) {
 	                    if  (conf.getExtreme() == HALF_INVALID)
 	                        tempPrayer[5] = portion + (conf.getIshaaInv() / 60.0) ;
 	                    else tempPrayer[5] = tempPrayer[4] + portion;
-	                    pt.ishaa().setIsExtreme(1);
+	                    pt.ishaa().setExtreme(true);
 	                }
 	            } else { /* for the always methods */
 	                
@@ -332,8 +332,8 @@ public class Itl {
 	                    tempPrayer[0] = tempPrayer[1] - portion;
 	                    tempPrayer[5] = tempPrayer[4] + portion;
 	                }
-	                pt.fajr().setIsExtreme (1);
-	                pt.ishaa().setIsExtreme (1);
+	                pt.fajr().setExtreme (true);
+	                pt.ishaa().setExtreme (true);
 	            }
 	            break;
 
@@ -342,20 +342,20 @@ public class Itl {
 	             * ishaaInv structure members */
 	            tempPrayer[0] = tempPrayer[1];
 	            tempPrayer[5] = tempPrayer[4];
-	            pt.fajr().setIsExtreme(1);
-	            pt.ishaa().setIsExtreme(1);
+	            pt.fajr().setExtreme(true);
+	            pt.ishaa().setExtreme(true);
 	            break;
 	      
 	        case MIN_INVALID:
 	            if (tempPrayer[0] == 99) {
 	                exinterval = (int)((double)conf.getFajrInv() / 60.0);
 	                tempPrayer[0] = tempPrayer[1] - exinterval;
-	                pt.fajr().setIsExtreme(1);
+	                pt.fajr().setExtreme(true);
 	            }
 	            if (tempPrayer[5] == 99) {
 	                exinterval = (int)((double)conf.getIshaaInv() / 60.0);
 	                tempPrayer[5] = tempPrayer[4] + exinterval;
-	                pt.ishaa().setIsExtreme(1);
+	                pt.ishaa().setExtreme(true);
 	            }
 	            break;
 	        } /* end switch */
@@ -500,7 +500,7 @@ public class Itl {
 	     * Imsaak normally for some extreme methods first */
 	    /* In case of an extreme Fajr time calculation use intervals for Imsaak and
 	     * compute again */
-	    if (temp.fajr().getIsExtreme() != 0)
+	    if (temp.fajr().isExtreme())
 	    {
 	        tmpConf = conf.copy();
 	        if ( conf.getImsaakInv() == 0)
