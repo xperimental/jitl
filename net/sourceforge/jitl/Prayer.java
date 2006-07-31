@@ -2,14 +2,6 @@ package net.sourceforge.jitl;
 
 public class Prayer {
 	
-	public final static int FAJR = 0;
-	public final static int SHUROOQ = 1;
-	public final static int THUHR = 2;
-	public final static int ASSR = 3;
-	public final static int MAGHRIB = 4;
-	public final static int ISHAA = 5;
-	public final static int IMSAAK = 6;
-	public final static int NEXTFAJR = 7;
 
 	
 	
@@ -60,4 +52,6 @@ public class Prayer {
 		this.second = second;
 	} 
 
-}
+	public String toString() {
+		return hour + ":" + (minute<10 ? "0" + minute : minute + "");
+	}}

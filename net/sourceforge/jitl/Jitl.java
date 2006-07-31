@@ -2,11 +2,17 @@ package net.sourceforge.jitl;
 
 import net.sourceforge.jitl.astro.Astro;
 import net.sourceforge.jitl.astro.AstroLib;
-import net.sourceforge.jitl.astro.Date;
+import net.sourceforge.jitl.astro.SimpleDate;
+import net.sourceforge.jitl.astro.Dms;
 import net.sourceforge.jitl.astro.Location;
 import net.sourceforge.jitl.astro.Utils;
 
 public class Jitl {
+	
+	/* version info */
+	
+	static final int VERSION_MINOR = 0;
+	static final int VERSION_MAJOR = 1;
 	/* Defaults */
 
 
@@ -24,52 +30,49 @@ public class Jitl {
 	static final int HALF_INVALID = 11;
 	static final int MIN_ALWAYS = 12;
 	static final int MIN_INVALID = 13;
-	static final int GOOD_DIF  = 14;
-	
-	  
-	static final int NONE = 20;
-	static final int EGYPT_SURVEY = 21;
-	static final int KARACHI_SHAF = 22;
-	static final int KARACHI_HANAF = 23;
-	static final int NORTH_AMERICA = 24;
-	static final int MUSLIM_LEAGUE = 25;
-	static final int UMM_ALQURRA = 26;
-	static final int FIXED_ISHAA  = 27;
-
-
+	static final int GOOD_DIF  = 14;	
 
 	private Astro astroCache = new Astro(); /* This is Used for storing some formulae results between
 	                   * multiple getPrayerTimes calls*/
 
 	private Location loc;
-	private Method conf;
+	private Method method;
 	
-	public Jitl(Location loc, Method conf) {
+	public Jitl(Location loc, Method method) {
 		this.loc = loc;
-		this.conf = conf;
+		this.method = method;
 	}
+	
 	public void setLocation(Location loc) {
 		this.loc = loc;
 	}
 	
-	public void setMethod(Method conf) {
-		this.conf = conf; 		
+	public void setMethod(Method method) {
+		this.method = method; 		
 	}
 	
-	public void getPrayerTimes (final Date date,  DayPrayers pt)
+	
+	public DayPrayers getPrayerTimes (final SimpleDate date) {
+		DayPrayers dp = new DayPrayers();
+		getPrayerTimes(date, dp);
+		
+		return dp;
+	}
+	
+	public void getPrayerTimes (final SimpleDate date,  DayPrayers pt)
 	{  
 	    DayCouple dc;
 
 	    dc = getDayInfo ( date, loc.getGmtDiff());
-	    getPrayerTimesByDay(dc, pt, 0);
+	    getPrayerTimesByDay(dc, pt, PrayerTime.FAJR);
 	}
 
 	 
-	void getPrayerTimesByDay (DayCouple dc, DayPrayers pt, int type) {		
-		getPrayerTimesByDay(conf, dc, pt, type);
+	void getPrayerTimesByDay (DayCouple dc, DayPrayers pt, PrayerTime type) {		
+		getPrayerTimesByDay(method, dc, pt, type);
 	}
 
-	void getPrayerTimesByDay (Method conf, DayCouple dc, DayPrayers pt, int type)
+	void getPrayerTimesByDay (Method method, DayCouple dc, DayPrayers pt, PrayerTime type)
 	{
 	    int i, invalid;
 	    double th, sh, mg, fj, is, ar;
@@ -89,38 +92,42 @@ public class Jitl {
 
 	    /* Get Prayer Times formulae results for this day of year and this
 	     * location. The results are NOT the actual prayer times */
-	    fj   = getFajIsh (lat, dec, conf.getFajrAng());
-	    sh   = getShoMag (loc, tAstro, Prayer.SHUROOQ);
+	    fj   = getFajIsh (lat, dec, method.getFajrAng());
+	    sh   = getShoMag (loc, tAstro, PrayerTime.SHUROOQ);
 	    th   = getThuhr (lon, tAstro);
-	    ar   = getAssr (lat, dec, conf.getMathhab());
-	    mg   = getShoMag (loc, tAstro, Prayer.MAGHRIB);
-	    is   = getFajIsh (lat, dec, conf.getIshaaAng());
+	    ar   = getAssr (lat, dec, method.getMathhab());
+	    mg   = getShoMag (loc, tAstro, PrayerTime.MAGHRIB);
+	    is   = getFajIsh (lat, dec, method.getIshaaAng());
 	    
 	    /* Calculate all prayer times as Base-10 numbers in Normal circumstances */ 
 	    /* Fajr */   
 	    if (fj == 99) {
 	        tempPrayer[0] = 99;
 	        invalid = 1;
-	    } 
-	    else tempPrayer[0] = th - fj;
+	    } else {
+	    	tempPrayer[0] = th - fj;
+	    }
 	     
-	    if (sh == 99)
+	    if (sh == 99) {
 	        invalid = 1;
+	    }
 
 	    tempPrayer[1] = sh;
 	    tempPrayer[2] = th;
 	    tempPrayer[3] = th + ar;
 	    tempPrayer[4] = mg;
 
-	    if (mg == 99)
+	    if (mg == 99) {
 	        invalid = 1;
+	    }
 
 	    /* Ishaa */
 	    if (is == 99) {
 	        tempPrayer[5] = 99;
 	        invalid = 1;
-	    } 
-	    else tempPrayer[5] = th + is;
+	    } else {
+	    	tempPrayer[5] = th + is;
+	    }
 	    
 	    
 	    /* Calculate all prayer times as Base-10 numbers in Extreme Latitudes (if
@@ -130,11 +137,11 @@ public class Jitl {
 	    pt.setAllExtreme(false);
 	     
 	     
-	    if ((conf.getExtreme() != NONE_EX) && !((conf.getExtreme() == GOOD_INVALID || 
-	                                         conf.getExtreme() == LAT_INVALID ||
-	                                         conf.getExtreme() == SEVEN_NIGHT_INVALID ||
-	                                         conf.getExtreme() == SEVEN_DAY_INVALID ||
-	                                         conf.getExtreme() == HALF_INVALID) &&
+	    if ((method.getExtremeLatitude() != NONE_EX) && !((method.getExtremeLatitude() == GOOD_INVALID || 
+	                                         method.getExtremeLatitude() == LAT_INVALID ||
+	                                         method.getExtremeLatitude() == SEVEN_NIGHT_INVALID ||
+	                                         method.getExtremeLatitude() == SEVEN_DAY_INVALID ||
+	                                         method.getExtremeLatitude() == HALF_INVALID) &&
 	                                        (invalid == 0)))
 	    {
 	        double exdecPrev, exdecNext;
@@ -148,7 +155,7 @@ public class Jitl {
 	        Astro exAstroPrev;
 	        Astro exAstroNext;
 
-	        switch(conf.getExtreme())
+	        switch(method.getExtremeLatitude())
 	        {
 	        /* Nearest Latitude (Method.nearestLat) */
 	        case LAT_ALL:
@@ -157,16 +164,16 @@ public class Jitl {
 
 	            /* xxxthamer: we cannot compute this when interval is set because
 	             * angle==0 . Only the if-invalid methods would work */
-	            exLoc.setDegreeLat(conf.getNearestLat());
-	            exFj = getFajIsh(conf.getNearestLat(), dec, conf.getFajrAng());
-	            //exIm = getFajIsh(conf.getNearestLat(), dec, conf.getImsaakAng());
-	            exIs = getFajIsh(conf.getNearestLat(), dec, conf.getIshaaAng());
-	            exAr = getAssr(conf.getNearestLat(), dec, conf.getMathhab());
-	            exSh = getShoMag (exLoc, tAstro, Prayer.SHUROOQ);
-	            exMg = getShoMag (exLoc, tAstro, Prayer.MAGHRIB);
+	            exLoc.setDegreeLat(method.getNearestLat());
+	            exFj = getFajIsh(method.getNearestLat(), dec, method.getFajrAng());
+	            //exIm = getFajIsh(method.getNearestLat(), dec, method.getImsaakAng());
+	            exIs = getFajIsh(method.getNearestLat(), dec, method.getIshaaAng());
+	            exAr = getAssr(method.getNearestLat(), dec, method.getMathhab());
+	            exSh = getShoMag (exLoc, tAstro, PrayerTime.SHUROOQ);
+	            exMg = getShoMag (exLoc, tAstro, PrayerTime.MAGHRIB);
 
 
-	            switch(conf.getExtreme())
+	            switch(method.getExtremeLatitude())
 	            {
 	            case LAT_ALL:
 	                tempPrayer[0] = th - exFj;
@@ -214,18 +221,18 @@ public class Jitl {
 	                nGoodDay = dc.getJulianDay() - i;
 	                AstroLib.getAstroValuesByDay(nGoodDay, loc, exAstroPrev, tAstro);
 	                exdecPrev = Utils.DEG_TO_RAD(tAstro.getDec()[1]);
-	                exFj = getFajIsh(lat, exdecPrev, conf.getFajrAng());
+	                exFj = getFajIsh(lat, exdecPrev, method.getFajrAng());
 
 	                
 	                if (exFj != 99)
 	                {
-	                    exIs = getFajIsh(lat, exdecPrev, conf.getIshaaAng());
+	                    exIs = getFajIsh(lat, exdecPrev, method.getIshaaAng());
 	                    if (exIs != 99)
 	                    {
 	                        exTh = getThuhr (lon, tAstro);
-	                        exSh = getShoMag (loc, tAstro, Prayer.SHUROOQ);
-	                        exMg = getShoMag (loc, tAstro, Prayer.MAGHRIB);
-	                        exAr = getAssr (lat, exdecPrev, conf.getMathhab());
+	                        exSh = getShoMag (loc, tAstro, PrayerTime.SHUROOQ);
+	                        exMg = getShoMag (loc, tAstro, PrayerTime.MAGHRIB);
+	                        exAr = getAssr (lat, exdecPrev, method.getMathhab());
 	                        break;
 	                    }
 	                }
@@ -234,22 +241,22 @@ public class Jitl {
 	                nGoodDay = dc.getJulianDay() + i;
 	                AstroLib.getAstroValuesByDay(nGoodDay, loc, exAstroNext, tAstro);
 	                exdecNext = Utils.DEG_TO_RAD(tAstro.getDec()[1]);
-	                exFj = getFajIsh(lat, exdecNext, conf.getFajrAng());
+	                exFj = getFajIsh(lat, exdecNext, method.getFajrAng());
 	                if (exFj != 99)
 	                {
-	                    exIs = getFajIsh(lat, exdecNext, conf.getIshaaAng());
+	                    exIs = getFajIsh(lat, exdecNext, method.getIshaaAng());
 	                    if (exIs != 99)
 	                    {
 	                        exTh = getThuhr (lon, tAstro);
-	                        exSh = getShoMag (loc, tAstro, Prayer.SHUROOQ);
-	                        exMg = getShoMag (loc, tAstro, Prayer.MAGHRIB);
-	                        exAr = getAssr (lat, exdecNext, conf.getMathhab());
+	                        exSh = getShoMag (loc, tAstro, PrayerTime.SHUROOQ);
+	                        exMg = getShoMag (loc, tAstro, PrayerTime.MAGHRIB);
+	                        exAr = getAssr (lat, exdecNext, method.getMathhab());
 	                        break;
 	                    }
 	                }
 	            }
 
-	            switch(conf.getExtreme())
+	            switch(method.getExtremeLatitude())
 	            {
 	            case GOOD_ALL:
 	                tempPrayer[0] = exTh - exFj;
@@ -288,7 +295,7 @@ public class Jitl {
 
 	            /* xxxthamer: For clarity, we may need to move the HALF_* methods
 	             * into their own separate case statement. */    
-	            switch(conf.getExtreme())
+	            switch(method.getExtremeLatitude())
 	            {
 	            case SEVEN_NIGHT_ALWAYS:
 	            case SEVEN_NIGHT_INVALID:
@@ -305,27 +312,27 @@ public class Jitl {
 	            }
 
 
-	            if (conf.getExtreme() == SEVEN_NIGHT_INVALID ||
-	                conf.getExtreme() == SEVEN_DAY_INVALID ||
-	                conf.getExtreme() == HALF_INVALID)
+	            if (method.getExtremeLatitude() == SEVEN_NIGHT_INVALID ||
+	                method.getExtremeLatitude() == SEVEN_DAY_INVALID ||
+	                method.getExtremeLatitude() == HALF_INVALID)
 	            {
 	                if (tempPrayer[0] == 99) {
-	                    if  (conf.getExtreme() == HALF_INVALID)
-	                        tempPrayer[0] =  portion - (conf.getFajrInv() / 60.0);
+	                    if  (method.getExtremeLatitude() == HALF_INVALID)
+	                        tempPrayer[0] =  portion - (method.getFajrInv() / 60.0);
 	                    else tempPrayer[0] = tempPrayer[1] - portion;
 	                    pt.fajr().setExtreme(true);
 	                }
 	                if (tempPrayer[5] == 99) {
-	                    if  (conf.getExtreme() == HALF_INVALID)
-	                        tempPrayer[5] = portion + (conf.getIshaaInv() / 60.0) ;
+	                    if  (method.getExtremeLatitude() == HALF_INVALID)
+	                        tempPrayer[5] = portion + (method.getIshaaInv() / 60.0) ;
 	                    else tempPrayer[5] = tempPrayer[4] + portion;
 	                    pt.ishaa().setExtreme(true);
 	                }
 	            } else { /* for the always methods */
 	                
-	                if  (conf.getExtreme() == HALF_ALWAYS) {
-	                    tempPrayer[0] = portion - (conf.getFajrInv() / 60.0);
-	                    tempPrayer[5] = portion + (conf.getIshaaInv() / 60.0) ;
+	                if  (method.getExtremeLatitude() == HALF_ALWAYS) {
+	                    tempPrayer[0] = portion - (method.getFajrInv() / 60.0);
+	                    tempPrayer[5] = portion + (method.getIshaaInv() / 60.0) ;
 	                }
 
 	                else {
@@ -348,12 +355,12 @@ public class Jitl {
 	      
 	        case MIN_INVALID:
 	            if (tempPrayer[0] == 99) {
-	                exinterval = (int)((double)conf.getFajrInv() / 60.0);
+	                exinterval = (int)((double)method.getFajrInv() / 60.0);
 	                tempPrayer[0] = tempPrayer[1] - exinterval;
 	                pt.fajr().setExtreme(true);
 	            }
 	            if (tempPrayer[5] == 99) {
-	                exinterval = (int)((double)conf.getIshaaInv() / 60.0);
+	                exinterval = (int)((double)method.getIshaaInv() / 60.0);
 	                tempPrayer[5] = tempPrayer[4] + exinterval;
 	                pt.ishaa().setExtreme(true);
 	            }
@@ -363,24 +370,27 @@ public class Jitl {
 
 	    
 	    /* Apply intervals if set */
-	    if (conf.getExtreme() != MIN_INVALID && 
-	        conf.getExtreme() != HALF_INVALID &&
-	        conf.getExtreme() != HALF_ALWAYS) {
-	        if (conf.getFajrInv() != 0)
-	            tempPrayer[0] = tempPrayer[1] - (conf.getFajrInv() / 60.0);    
-	        if (conf.getIshaaInv() != 0)
-	            tempPrayer[5] = tempPrayer[4] + (conf.getIshaaInv() / 60.0); 
+	    if (method.getExtremeLatitude() != MIN_INVALID && 
+	        method.getExtremeLatitude() != HALF_INVALID &&
+	        method.getExtremeLatitude() != HALF_ALWAYS) {
+	        if (method.getFajrInv() != 0)
+	            tempPrayer[0] = tempPrayer[1] - (method.getFajrInv() / 60.0);    
+	        if (method.getIshaaInv() != 0)
+	            tempPrayer[5] = tempPrayer[4] + (method.getIshaaInv() / 60.0); 
 	    }
 
 	 
 	    /* Final Step: Fill the Prayer array by doing decimal degree to
 	     * Prayer structure conversion*/
-	    if (type == Prayer.IMSAAK || type == Prayer.NEXTFAJR)
-	        base6hm(tempPrayer[0], conf, pt.fajr(), type);
-	    else {
+	    if (type == PrayerTime.IMSAAK || type == PrayerTime.NEXTFAJR) {
+	        base6hm(tempPrayer[0], method, pt.fajr(), type);
+	    } else {
 	        Prayer[] pArray = pt.getPrayers();
+	    	PrayerTime[] timeArray = {PrayerTime.FAJR, PrayerTime.SHUROOQ, PrayerTime.THUHR, PrayerTime.ASSR,
+	    			PrayerTime.MAGHRIB, PrayerTime.ISHAA};
+	        
 	    	for (i=0; i<6; i++) {
-	            base6hm(tempPrayer[i], conf, pArray[i], i);
+	            base6hm(tempPrayer[i], method, pArray[i], timeArray[i]);
 	    	}
 	    }
 
@@ -388,7 +398,7 @@ public class Jitl {
 
 
 
-	void base6hm(double bs, Method conf, Prayer pt, int type)	{
+	void base6hm(double bs, Method method, Prayer pt, PrayerTime type)	{
 	    double min, sec;
 
 	    if (bs == 99)
@@ -400,10 +410,10 @@ public class Jitl {
 	    }
 	        
 	    /* Add offsets */
-	    if (conf.getOffset() == 1) {
-	        if (type == Prayer.IMSAAK || type == Prayer.NEXTFAJR)
-	            bs += (conf.getOffList()[0] / 60.0);
-	        else  bs += (conf.getOffList()[type] / 60.0);
+	    if (method.getOffset() == 1) {
+	        if (type == PrayerTime.IMSAAK || type == PrayerTime.NEXTFAJR)
+	            bs += (method.getFajrOffset() / 60.0);
+	        else  bs += (method.getOffset(type) / 60.0);
 	    }
 
 
@@ -418,7 +428,7 @@ public class Jitl {
 
 
 	    /* Add rounding minutes */
-	    if (conf.getRound() == 1)
+	    if (method.getRound() == 1)
 	    {
 	        if (sec >= Utils.DEFAULT_ROUND_SEC)
 	            bs += 1/60.0;
@@ -426,23 +436,18 @@ public class Jitl {
 	        min = (bs - Math.floor(bs)) * 60;
 	        sec = 0;
 
-	    } else if (conf.getRound() == 2 || conf.getRound() == 3)
+	    } else if (method.getRound() == 2 || method.getRound() == 3)
 	    {
-	        switch(type)
+	        if(type == PrayerTime.FAJR || type == PrayerTime.THUHR || 
+	        		type == PrayerTime.ASSR || type == PrayerTime.MAGHRIB ||
+	        		type == PrayerTime.ISHAA || type == PrayerTime.NEXTFAJR) 
 	        {
-	        case Prayer.FAJR :
-	        case Prayer.THUHR:
-	        case Prayer.ASSR:
-	        case Prayer.MAGHRIB:
-	        case Prayer.ISHAA:
-	        case Prayer.NEXTFAJR:
-	            
-	            if (conf.getRound() == 2) {
+	            if (method.getRound() == 2) {
 	                if (sec >= Utils.DEFAULT_ROUND_SEC) {
 	                    bs += 1/60.0;
 	                    min = (bs - Math.floor(bs)) * 60;
 	                }
-	            } else if (conf.getRound() == 3)
+	            } else if (method.getRound() == 3)
 	            {
 	                if (sec >= Utils.AGGRESSIVE_ROUND_SEC) {
 	                    bs += 1/60.0;
@@ -450,12 +455,10 @@ public class Jitl {
 	                }
 	            }
 	            sec = 0;
-	            break;
-
-	        case Prayer.SHUROOQ:
-	        case Prayer.IMSAAK:
+	        } else {
+	        //case Prayer.SHUROOQ:
+	        //case Prayer.IMSAAK:
 	            sec = 0;
-	            break;
 	        }
 	    }
 
@@ -471,30 +474,30 @@ public class Jitl {
 
 	}
 
-	public void getImsaak (Date date, Prayer pt)
+	public Prayer getImsaak (SimpleDate date)
 	{
 
 	    Method tmpConf;
 	    DayCouple dc;
 	    DayPrayers temp = new DayPrayers();
 
-	    tmpConf = conf.copy();
+	    tmpConf = method.copy();
 
-	    if (conf.getFajrInv() != 0) { 
-	        if (conf.getImsaakInv() == 0)
+	    if (method.getFajrInv() != 0) { 
+	        if (method.getImsaakInv() == 0)
 	            tmpConf.setFajrInv((int)(tmpConf.getFajrInv() + Utils.DEF_IMSAAK_INTERVAL));
-	        else tmpConf.setFajrInv ((int)(tmpConf.getFajrInv()+conf.getImsaakInv()));
+	        else tmpConf.setFajrInv ((int)(tmpConf.getFajrInv()+method.getImsaakInv()));
 	        
-	    } else if (conf.getImsaakInv() != 0) {
+	    } else if (method.getImsaakInv() != 0) {
 	        /* use an inv even if al-Fajr is computed (Indonesia?) */       
-	        tmpConf.getOffList()[0] += (conf.getImsaakInv() * -1);
+	        tmpConf.setFajrOffset(tmpConf.getFajrOffset() + (method.getImsaakInv() * -1));
 	        tmpConf.setOffset(1);
 	    } else { 
-	        tmpConf.setFajrAng(tmpConf.getFajrAng() + conf.getImsaakAng() );
+	        tmpConf.setFajrAng(tmpConf.getFajrAng() + method.getImsaakAng() );
 	    }
 
 	    dc = getDayInfo ( date, loc.getGmtDiff());
-	    getPrayerTimesByDay( tmpConf, dc, temp, Prayer.IMSAAK);
+	    getPrayerTimesByDay( tmpConf, dc, temp, PrayerTime.IMSAAK);
 
 	    /* xxxthamer: We probably need to check whether it's possible to compute
 	     * Imsaak normally for some extreme methods first */
@@ -502,38 +505,32 @@ public class Jitl {
 	     * compute again */
 	    if (temp.fajr().isExtreme())
 	    {
-	        tmpConf = conf.copy();
-	        if ( conf.getImsaakInv() == 0)
+	        tmpConf = method.copy();
+	        if ( method.getImsaakInv() == 0)
 	        {
-	            tmpConf.getOffList()[0] -= Utils.DEF_IMSAAK_INTERVAL;
+	            tmpConf.setFajrOffset(tmpConf.getFajrOffset() - Utils.DEF_IMSAAK_INTERVAL);
 	            tmpConf.setOffset(1);
 	        } else
 	        {
-	            tmpConf.getOffList()[0] -= conf.getImsaakInv();
+	            tmpConf.setFajrOffset(tmpConf.getFajrOffset() - method.getImsaakInv());
 	            tmpConf.setOffset(1);
 	        }
-	        getPrayerTimesByDay( tmpConf, dc, temp, Prayer.IMSAAK);
+	        getPrayerTimesByDay( tmpConf, dc, temp, PrayerTime.IMSAAK);
 	    }
 	    
-	    pt = temp.fajr().copy();
+	    return temp.fajr();
 	}
 
-	public void getNextDayImsaak (Date date, 
-	                       Prayer pt)
+	public Prayer getNextDayImsaak (SimpleDate date)
 	{
 	    /* Copy the date structure and increment for next day.*/
-	    Prayer temppt = new Prayer();
-	    Date tempd = date.copy(); 
+	    SimpleDate tempd = date.copy(); 
 	    tempd.setDay(tempd.getDay()+1);
 	     
-	    getImsaak (tempd, temppt);
-
-	    pt = temppt.copy(); 
-
+	    return getImsaak (tempd);
 	}
 
-	public void getNextDayFajr (Date date, 
-	                     Prayer pt)
+	public Prayer getNextDayFajr (SimpleDate date)
 	{
 
 	    DayPrayers temp = new DayPrayers();
@@ -541,8 +538,8 @@ public class Jitl {
 
 	    dc = getDayInfo ( date, loc.getGmtDiff());
 	    dc.setJulianDay(dc.getJulianDay() + 1);
-	    getPrayerTimesByDay(dc, temp, Prayer.NEXTFAJR);	 
-	    pt = temp.fajr().copy(); 
+	    getPrayerTimesByDay(dc, temp, PrayerTime.NEXTFAJR);	 
+	    return temp.fajr().copy(); 
 	}
 
 
@@ -563,7 +560,7 @@ public class Jitl {
 	}
 
 
-	static double getShoMag (Location loc, Astro astro, int type)
+	static double getShoMag (Location loc, Astro astro, PrayerTime type)
 	{
 	    double lhour, M, sidG, ra0 = astro.getRa()[0], ra2=astro.getRa()[2];
 	    double A, B, H, sunAlt, R, tH;
@@ -581,9 +578,9 @@ public class Jitl {
 	    lhour =  AstroLib.limitAngle180 (( Utils.RAD_TO_DEG (Math.acos (part4))));
 	    M = ((astro.getRa()[1] - loc.getDegreeLong() - astro.getSid()[1]) / 360.0);
 
-	    if (type ==  Prayer.SHUROOQ)
+	    if (type ==  PrayerTime.SHUROOQ)
 	        M = M - (lhour/360.0);
-	    if (type == Prayer.MAGHRIB)
+	    if (type == PrayerTime.MAGHRIB)
 	        M = M + (lhour/360.0);
 	        
 	    M = AstroLib.limitAngle111(M);
@@ -690,33 +687,7 @@ public class Jitl {
 	    return day;
 	}
 
-	static double dms2Decimal(int deg, int min, double sec, char dir)
-	{
-	    double sum = deg + ((min/60.0)+(sec/3600.0));
-	    if (dir == 'S' || dir == 'W' || dir == 's' || dir == 'w')
-	        return sum * (-1.0);
-	    return sum;
-	}
-
-	static public void decimal2Dms(double decimal, int deg, int min, double sec)
-	{
-	    double tempmin, tempsec, n1, n2;
-	    double v;
-	    v = Math.floor(decimal);
-	    n1 = decimal -v;
-	    tempmin = v * 60.0;
-	    
-	    v = Math.floor(tempmin);
-	    n2 = decimal -v;
-	    tempsec = v * 60.0;
-
-	    deg = (int)n1;
-	    min = (int)n2;
-	    sec = tempsec;
-
-	}
-
-	static DayCouple getDayInfo ( Date date, double gmt)
+	static DayCouple getDayInfo ( SimpleDate date, double gmt)
 	{
 	    int ld;
 	    double jd;
@@ -728,7 +699,7 @@ public class Jitl {
 
 	/* Obtaining the direction of the shortest distance towards Qibla by uMath.sing the
 	 * great circle formula */ 
-	static public double getNorthQibla(Location loc)
+	static public Dms getNorthQibla(Location loc)
 	{
 	    /* xxxthamer: reduce Utils.DEG_TO_RAD usage */
 	    double num, denom;
@@ -736,13 +707,21 @@ public class Jitl {
 	    denom = (Math.cos (Utils.DEG_TO_RAD (loc.getDegreeLat())) * Math.tan (Utils.DEG_TO_RAD (Utils.KAABA_LAT))) -
 	        (Math.sin (Utils.DEG_TO_RAD (loc.getDegreeLat())) * ((Math.cos ((Utils.DEG_TO_RAD (loc.getDegreeLong()) -
 	                                                     Utils.DEG_TO_RAD(Utils.KAABA_LONG))))));
-	    return Utils.RAD_TO_DEG (Math.atan2 (num, denom));
+	    return new Dms(Utils.RAD_TO_DEG (Math.atan2 (num, denom)));
 
 	}
 
-	public double getNorthQibla()
+	public Dms getNorthQibla()
 	{
 	    return getNorthQibla(loc);
+	}
+	
+	public static int getMajorVersion() {
+		return VERSION_MAJOR;
+	}
+	
+	public static int getMinorVersion() {
+		return VERSION_MINOR;
 	}
 	
 	

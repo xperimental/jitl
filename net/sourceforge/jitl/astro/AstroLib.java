@@ -384,7 +384,7 @@ public class AstroLib {
 	}
 	
 	
-	public static double getJulianDay(final Date date, double gmt)
+	public static double getJulianDay(final SimpleDate date, double gmt)
 	{
 	   
 		double jdB=0, jdY, jdM, JD;

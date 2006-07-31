@@ -18,6 +18,20 @@ public class Location {
 	private double temperature; /* Temperature in Celsius degree (the astronomical
                            standard value is 10) */
 	
+	public Location(double degreeLat, double degreeLong, double gmtDiff, int dst) {
+		this.degreeLong = degreeLong;
+		this.degreeLat = degreeLat;
+		this.gmtDiff = gmtDiff;
+		this.dst = dst;
+		
+		this.seaLevel = DEFAULT_SEA_LEVEL;
+		this.pressure = DEFAULT_PRESSURE;
+		this.temperature = DEFAULT_TEMPERATURE;
+	}
+	
+	private Location() {
+		
+	}
 	public Location copy() {
 		Location loc = new Location();
 
