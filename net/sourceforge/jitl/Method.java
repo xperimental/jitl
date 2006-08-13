@@ -5,34 +5,28 @@ import net.sourceforge.jitl.astro.Utils;
 public class Method {
     private double fajrAng;     /* Fajr angle */
     private double ishaaAng;    /* Ishaa angle */
-    private double imsaakAng;   /* The angle difference between Imsaak and Fajr (
-                           default is 1.5)*/
-    private int fajrInv;        /* Fajr Interval is the amount of minutes between
-                           Fajr and Shurooq (0 if not used) */
-    private int ishaaInv;       /* Ishaa Interval is the amount if minutes between
-                           Ishaa and Maghrib (0 if not used) */
-    private int imsaakInv;      /* Imsaak Interval is the amount of minutes between
-                           Imsaak and Fajr. The default is 10 minutes before
-                           Fajr if Fajr Interval is set */
+    private double imsaakAng;   /* The angle difference between Imsaak and Fajr (default is 1.5)*/
+    private int fajrInv;        /* Fajr Interval is the amount of minutes between Fajr and Shurooq (0 if not used) */
+    private int ishaaInv;       /* Ishaa Interval is the amount if minutes between Ishaa and Maghrib (0 if not used) */
+    private int imsaakInv;      /* Imsaak Interval is the amount of minutes between Imsaak and Fajr. The default is 10 minutes before Fajr if Fajr Interval is set */
     private int round;          /* Method used for rounding seconds:
-                           0: No Rounding. "Prayer.seconds" is set to the
-                              amount of computed seconds.
-                           1: Normal Rounding. If seconds are equal to
-                              30 or above, add 1 minute. Sets
-                              "Prayer.seconds" to zero.
-                           2: Special Rounding. Similar to normal rounding
-                              but we always round down for Shurooq and
-                              Imsaak times. (default)
-                           3: Aggressive Rounding. Similar to Special
-                              Rounding but we add 1 minute if the seconds
-                              value are equal to 1 second or more.  */
+									0: No Rounding. "Prayer.seconds" is set to the
+									 amount of computed seconds.
+									1: Normal Rounding. If seconds are equal to
+									 30 or above, add 1 minute. Sets
+									 "Prayer.seconds" to zero.
+									2: Special Rounding. Similar to normal rounding
+									 but we always round down for Shurooq and
+									 Imsaak times. (default)
+									3: Aggressive Rounding. Similar to Special
+									 Rounding but we add 1 minute if the seconds
+									 value are equal to 1 second or more.  */
     private int mathhab;        /* Assr prayer shadow ratio:
-                           1: Shaf'i (default)
-                           2: Hanafi */
-    private double nearestLat;  /* Latitude Used for the 'Nearest Latitude' extreme
-                           methods. The default is 48.5 */
-    private int extremeLatitude;        /* Extreme latitude calculation method (see
-                           below) */
+    								1: Shaf'i (default)
+    								2: Hanafi 
+    							*/
+    private double nearestLat;  /* Latitude Used for the 'Nearest Latitude' extreme methods. The default is 48.5 */
+    private int extremeLatitude;/* Extreme latitude calculation method (see below) */
     private int offset;         /* Enable Offsets switch (set this to 1 to
                            activate). This option allows you to add or
                            subtract any amount of minutes to the daily
