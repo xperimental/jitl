@@ -63,6 +63,6 @@ public class Prayer {
 	}
 	
 	public String toString() {
-		return hour + ":" + (minute < 10 ? "0" + minute : minute + "");
+		return hour + ":" + (minute < 10 ? "0" + minute : minute + "") + ":" + (second < 10 ? "0" + second : second + "");
 	}
 }
