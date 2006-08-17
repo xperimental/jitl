@@ -165,8 +165,7 @@ public class AstroLib {
 		
 		part1 = (loc.getPressure() / 1010.0)
 		* (283 / (273 + loc.getTemperature()));
-		part2 = 1 / Math
-		.tan(Utils.DEG_TO_RAD(sunAlt + (7.31 / (sunAlt + 4.4)))) + 0.0013515;
+		part2 = 1.02 / (Utils.RAD_TO_DEG(Math.tan(Utils.DEG_TO_RAD(sunAlt + (10.3/(sunAlt + 5.11))))) + 0.0019279);
 		return (part1 * part2) / 60.0;
 	}
 	
