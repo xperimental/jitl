@@ -15,20 +15,9 @@ public class Method {
 	
 	private int imsaakInv; /* Imsaak Interval is the amount of minutes between Imsaak and Fajr. The default is 10 minutes before Fajr if Fajr Interval is set */
 	
-	private int round; /* Method used for rounding seconds:
-	0: No Rounding. "Prayer.seconds" is set to the
-	amount of computed seconds.
-	1: Normal Rounding. If seconds are equal to
-	30 or above, add 1 minute. Sets
-	"Prayer.seconds" to zero.
-	2: Special Rounding. Similar to normal rounding
-	but we always round down for Shurooq and
-	Imsaak times. (default)
-	3: Aggressive Rounding. Similar to Special
-	Rounding but we add 1 minute if the seconds
-	value are equal to 1 second or more.  */
+	private Rounding round; /* Method used for rounding seconds */
 	
-	private int mathhab; /* Assr prayer shadow ratio:
+	private Mathhab mathhab; /* Assr prayer shadow ratio:
 	1: Shaf'i (default)
 	2: Hanafi 
 	*/
@@ -66,7 +55,7 @@ public class Method {
 	}
 	
 	public Method(double fajrAng, double ishaaAng, double imsaakAng,
-			int fajrInv, int ishaaInv, int imsaakInv, int round, int mathhab,
+			int fajrInv, int ishaaInv, int imsaakInv, Rounding round, Mathhab mathhab,
 			double nearestLat, int extreme, int offset, double fajrOffset,
 			double shurooqOffset, double thuhrOffset, double assrOffset,
 			double maghribOffset, double ishaaOffset) {
@@ -154,11 +143,11 @@ public class Method {
 		this.ishaaInv = ishaaInv;
 	}
 	
-	public int getMathhab() {
+	public Mathhab getMathhab() {
 		return mathhab;
 	}
 	
-	public void setMathhab(int mathhab) {
+	public void setMathhab(Mathhab mathhab) {
 		this.mathhab = mathhab;
 	}
 	
@@ -178,11 +167,11 @@ public class Method {
 		this.offset = offset;
 	}
 	
-	public int getRound() {
+	public Rounding getRound() {
 		return round;
 	}
 	
-	public void setRound(int round) {
+	public void setRound(Rounding round) {
 		this.round = round;
 	}
 	
@@ -191,29 +180,29 @@ public class Method {
 	 nearestLat =  Utils.DEF_NEAREST_LATITUDE , extreme = 5, offset = 0, offList = null
 	 */
 	
-	public static final Method NONE = new Method(0.0, 0.0, 0, 0, 0, 0, 2, 1,
+	public static final Method NONE = new Method(0.0, 0.0, 0, 0, 0, 0, Rounding.SPECIAL, Mathhab.SHAAFI,
 			Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
 	
-	public static final Method EGYPT_SURVEY = new Method(20, 18, 0, 0, 0, 0, 2,
-			1, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+	public static final Method EGYPT_SURVEY = new Method(20, 18, 0, 0, 0, 0, Rounding.SPECIAL,
+			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
 	
-	public static final Method KARACHI_SHAF = new Method(18, 18, 0, 0, 0, 0, 2,
-			1, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+	public static final Method KARACHI_SHAF = new Method(18, 18, 0, 0, 0, 0, Rounding.SPECIAL,
+			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method KARACHI_HANAF = new Method(18, 18, 0, 0, 0, 0,
-			2, 2, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.HANAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method NORTH_AMERICA = new Method(15, 15, 0, 0, 0, 0,
-			2, 1, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method MUSLIM_LEAGUE = new Method(18, 17, 0, 0, 0, 0,
-			2, 1, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
 	
-	public static final Method UMM_ALQURRA = new Method(19, 0, 0, 0, 90, 0, 2,
-			1, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+	public static final Method UMM_ALQURRA = new Method(19, 0, 0, 0, 90, 0, Rounding.SPECIAL,
+			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method FIXED_ISHAA = new Method(19.5, 0, 0, 0, 90, 0,
-			2, 1, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
 	
 	public double getAssrOffset() {
 		return assrOffset;

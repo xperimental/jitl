@@ -466,23 +466,23 @@ public class Jitl {
 		sec = (min - Math.floor(min)) * 60;
 		
 		/* Add rounding minutes */
-		if (method.getRound() == 1) {
+		if (method.getRound() == Rounding.NORMAL) {
 			if (sec >= Utils.DEFAULT_ROUND_SEC)
 				bs += 1 / 60.0;
 			/* compute again */
 			min = (bs - Math.floor(bs)) * 60;
 			sec = 0;
 			
-		} else if (method.getRound() == 2 || method.getRound() == 3) {
+		} else if (method.getRound() == Rounding.SPECIAL || method.getRound() == Rounding.AGRESSIVE) {
 			if (type == PrayerTime.FAJR || type == PrayerTime.THUHR
 					|| type == PrayerTime.ASSR || type == PrayerTime.MAGHRIB
 					|| type == PrayerTime.ISHAA || type == PrayerTime.NEXTFAJR) {
-				if (method.getRound() == 2) {
+				if (method.getRound() == Rounding.SPECIAL) {
 					if (sec >= Utils.DEFAULT_ROUND_SEC) {
 						bs += 1 / 60.0;
 						min = (bs - Math.floor(bs)) * 60;
 					}
-				} else if (method.getRound() == 3) {
+				} else if (method.getRound() == Rounding.AGRESSIVE) {
 					if (sec >= Utils.AGGRESSIVE_ROUND_SEC) {
 						bs += 1 / 60.0;
 						min = (bs - Math.floor(bs)) * 60;
@@ -702,12 +702,13 @@ public class Jitl {
 		return 24.0 * (M - H / 360.0);
 	}
 	
-	static double getAssr(double Lat, double dec, int mathhab) {
+	static double getAssr(double Lat, double dec, Mathhab mathhab) {
 		double part1, part2, part3, part4;
+		int mathhabValue = (mathhab == Mathhab.SHAAFI ? 1 : 2);
 		
-		part1 = mathhab + Math.tan(Utils.DEG_TO_RAD(Lat) - dec);
+		part1 = mathhabValue + Math.tan(Utils.DEG_TO_RAD(Lat) - dec);
 		if (part1 < 1 || Lat < 0)
-			part1 = mathhab - Math.tan(Utils.DEG_TO_RAD(Lat) - dec);
+			part1 = mathhabValue - Math.tan(Utils.DEG_TO_RAD(Lat) - dec);
 		
 		part2 = (Utils.PI / 2.0) - Math.atan(part1);
 		part3 = Math.sin(part2) - Math.sin(Utils.DEG_TO_RAD(Lat))
