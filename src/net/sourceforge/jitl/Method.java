@@ -24,7 +24,7 @@ public class Method {
 	
 	private double nearestLat; /* Latitude Used for the 'Nearest Latitude' extreme methods. The default is 48.5 */
 	
-	private int extremeLatitude;/* Extreme latitude calculation method (see below) */
+	private ExtremeLatitude extremeLatitude;/* Extreme latitude calculation method (see below) */
 	
 	private int offset; /* Enable Offsets switch (set this to 1 to
 	activate). This option allows you to add or
@@ -56,7 +56,7 @@ public class Method {
 	
 	public Method(double fajrAng, double ishaaAng, double imsaakAng,
 			int fajrInv, int ishaaInv, int imsaakInv, Rounding round, Mathhab mathhab,
-			double nearestLat, int extreme, int offset, double fajrOffset,
+			double nearestLat, ExtremeLatitude extreme, int offset, double fajrOffset,
 			double shurooqOffset, double thuhrOffset, double assrOffset,
 			double maghribOffset, double ishaaOffset) {
 		this.fajrAng = fajrAng;
@@ -87,11 +87,11 @@ public class Method {
 				maghribOffset, ishaaOffset);
 	}
 	
-	public int getExtremeLatitude() {
+	public ExtremeLatitude getExtremeLatitude() {
 		return extremeLatitude;
 	}
 	
-	public void setExtremeLatitude(int extreme) {
+	public void setExtremeLatitude(ExtremeLatitude extreme) {
 		this.extremeLatitude = extreme;
 	}
 	
@@ -181,28 +181,28 @@ public class Method {
 	 */
 	
 	public static final Method NONE = new Method(0.0, 0.0, 0, 0, 0, 0, Rounding.SPECIAL, Mathhab.SHAAFI,
-			Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method EGYPT_SURVEY = new Method(20, 18, 0, 0, 0, 0, Rounding.SPECIAL,
-			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method KARACHI_SHAF = new Method(18, 18, 0, 0, 0, 0, Rounding.SPECIAL,
-			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method KARACHI_HANAF = new Method(18, 18, 0, 0, 0, 0,
-			Rounding.SPECIAL, Mathhab.HANAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.HANAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method NORTH_AMERICA = new Method(15, 15, 0, 0, 0, 0,
-			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method MUSLIM_LEAGUE = new Method(18, 17, 0, 0, 0, 0,
-			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method UMM_ALQURRA = new Method(19, 0, 0, 0, 90, 0, Rounding.SPECIAL,
-			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
 	public static final Method FIXED_ISHAA = new Method(19.5, 0, 0, 0, 90, 0,
-			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, 5, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
 	public double getAssrOffset() {
 		return assrOffset;
