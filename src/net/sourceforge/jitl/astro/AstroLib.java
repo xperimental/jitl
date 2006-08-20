@@ -1,5 +1,12 @@
 package net.sourceforge.jitl.astro;
 
+/**
+ *  Astro functions
+ *  
+ *  Most of the astronomical values and formulas used in this file are
+ *  based on the Jean Meeus subset of the VSOP87 planetary theory.
+ *
+ */
 public class AstroLib {
 	static final double L0[][] = { { 175347046, 0, 0 },
 		{ 3341656, 4.6692568, 6283.07585 }, { 34894, 4.6261, 12566.1517 },

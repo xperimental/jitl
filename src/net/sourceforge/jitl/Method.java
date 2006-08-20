@@ -3,21 +3,21 @@ package net.sourceforge.jitl;
 import net.sourceforge.jitl.astro.Utils;
 
 public class Method {
-	private double fajrAng; /* Fajr angle */
+	private double fajrAng; 
 	
-	private double ishaaAng; /* Ishaa angle */
+	private double ishaaAng; 
 	
-	private double imsaakAng; /* The angle difference between Imsaak and Fajr (default is 1.5)*/
+	private double imsaakAng; /* */
 	
-	private int fajrInv; /* Fajr Interval is the amount of minutes between Fajr and Shurooq (0 if not used) */
+	private int fajrInv; /* */
 	
-	private int ishaaInv; /* Ishaa Interval is the amount if minutes between Ishaa and Maghrib (0 if not used) */
+	private int ishaaInv; /*  */
 	
-	private int imsaakInv; /* Imsaak Interval is the amount of minutes between Imsaak and Fajr. The default is 10 minutes before Fajr if Fajr Interval is set */
+	private int imsaakInv; /*  */
 	
-	private Rounding round; /* Method used for rounding seconds */
+	private Rounding round; /*  */
 	
-	private Mathhab mathhab; /* Assr prayer shadow ratio:
+	private Mathhab mathhab; /* :
 	1: Shaf'i (default)
 	2: Hanafi 
 	*/
@@ -26,18 +26,7 @@ public class Method {
 	
 	private ExtremeLatitude extremeLatitude;/* Extreme latitude calculation method (see below) */
 	
-	private int offset; /* Enable Offsets switch (set this to 1 to
-	activate). This option allows you to add or
-	subtract any amount of minutes to the daily
-	computed prayer times based on values (in
-	minutes) for each prayer in the offList array */
-	
-	/* TODO For Example: If you want to add 30 seconds to
-	 Maghrib and subtract 2 minutes from Ishaa:
-	 offset = 1
-	 offList[4] = 0.5
-	 offList[5] = -2
-	 ..and than call getPrayerTimes as usual. */
+	private int offset; /* */
 	
 	private double fajrOffset;
 	
@@ -54,6 +43,65 @@ public class Method {
 	public Method() {
 	}
 	
+	/**
+	 * copy constructor
+	 * @param orig Method to copy from
+	 */
+	public Method(Method orig) {
+		this.fajrAng = orig.getFajrAng();
+		this.ishaaAng = orig.getIshaaAng();
+		this.imsaakAng = orig.getImsaakAng();
+		this.fajrInv = orig.getFajrInv();
+		this.ishaaInv = orig.getIshaaInv();
+		this.imsaakInv = orig.getImsaakInv();
+		this.round = orig.getRound();
+		this.mathhab = orig.getMathhab();
+		this.nearestLat = orig.getNearestLat();
+		this.extremeLatitude = orig.getExtremeLatitude();
+		this.offset = orig.getOffset();
+		
+		this.fajrOffset = orig.getFajrOffset();
+		this.shurooqOffset = orig.getShurooqOffset();
+		this.thuhrOffset = orig.getThuhrOffset();
+		this.assrOffset = orig.getAssrOffset();
+		this.maghribOffset = orig.getMaghribOffset();
+		this.ishaaOffset = orig.getIshaaOffset();		
+	}
+	
+	/**
+	 * Build a method object containing all the information needed to compute
+	 * prayer time.
+	 *  
+	 * @param fajrAng Fajr angle
+	 * @param ishaaAng Ishaa angle 
+	 * @param imsaakAng The angle difference between Imsaak and Fajr (default
+	 *  is 1.5)
+	 * @param fajrInv Fajr Interval is the amount of minutes between Fajr and 
+	 *  Shurooq (0 if not used) 
+	 * @param ishaaInv Ishaa Interval is the amount if minutes between Ishaa and
+	 *  Maghrib (0 if not used)
+	 * @param imsaakInv Imsaak Interval is the amount of minutes between Imsaak
+	 *  and Fajr. The default is 10 minutes before Fajr if Fajr Interval is set
+	 * @param round Method used for rounding seconds
+	 * @param mathhab Assr prayer shadow ratio
+	 * @param nearestLat
+	 * @param extreme
+	 * @param offset Enable Offsets switch (set this to 1 to activate). This
+	 *  option allows you to add or subtract any amount of minutes to the daily
+	 *  computed prayer times based on values (in minutes) for each prayer in
+	 *  the next xxxOffset parameters 	
+	 *  For Example: If you want to add 30 seconds to Maghrib and subtract 2
+	 *  minutes from Ishaa: 
+	 *   offset = 1 
+	 *   maghribOffset = 0.5 
+	 *   ishaaOffset = -2	 
+	 * @param fajrOffset fajr offset
+	 * @param shurooqOffset shurooq offset
+	 * @param thuhrOffset thuhr offset
+	 * @param assrOffset assr offset
+	 * @param maghribOffset maghrib offset
+	 * @param ishaaOffset ishaa offset
+	 */
 	public Method(double fajrAng, double ishaaAng, double imsaakAng,
 			int fajrInv, int ishaaInv, int imsaakInv, Rounding round, Mathhab mathhab,
 			double nearestLat, ExtremeLatitude extreme, int offset, double fajrOffset,

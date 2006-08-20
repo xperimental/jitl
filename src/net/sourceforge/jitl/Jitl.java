@@ -75,7 +75,7 @@ public class Jitl {
 	 * generates prayer times
 	 * @param date the date of prayers
 	 * @return a DayPrayers object containing time of different
-	 * times 
+	 * prayers 
 	 */
 	public DayPrayers getPrayerTimes(final Date date) {
 		return getPrayerTimes(new SimpleDate(date, calendar));
