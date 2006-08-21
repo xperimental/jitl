@@ -7,26 +7,23 @@ public class Method {
 	
 	private double ishaaAng; 
 	
-	private double imsaakAng; /* */
+	private double imsaakAng;
 	
-	private int fajrInv; /* */
+	private int fajrInv;
 	
-	private int ishaaInv; /*  */
+	private int ishaaInv;
 	
-	private int imsaakInv; /*  */
+	private int imsaakInv;
 	
-	private Rounding round; /*  */
+	private Rounding round;
 	
-	private Mathhab mathhab; /* :
-	1: Shaf'i (default)
-	2: Hanafi 
-	*/
+	private Mathhab mathhab;
 	
-	private double nearestLat; /* Latitude Used for the 'Nearest Latitude' extreme methods. The default is 48.5 */
+	private double nearestLat;
 	
-	private ExtremeLatitude extremeLatitude;/* Extreme latitude calculation method (see below) */
+	private ExtremeLatitude extremeLatitude;
 	
-	private int offset; /* */
+	private int offset;
 	
 	private double fajrOffset;
 	
@@ -83,9 +80,10 @@ public class Method {
 	 * @param imsaakInv Imsaak Interval is the amount of minutes between Imsaak
 	 *  and Fajr. The default is 10 minutes before Fajr if Fajr Interval is set
 	 * @param round Method used for rounding seconds
-	 * @param mathhab Assr prayer shadow ratio
-	 * @param nearestLat
-	 * @param extreme
+	 * @param mathhab mathhab for calculating assr prayer shadow ratio
+	 * @param nearestLat Latitude Used for the 'Nearest Latitude' extreme
+	 *  methods. The default is 48.5
+	 * @param extreme Extreme latitude calculation method (@see ExtremeLatitude) 
 	 * @param offset Enable Offsets switch (set this to 1 to activate). This
 	 *  option allows you to add or subtract any amount of minutes to the daily
 	 *  computed prayer times based on values (in minutes) for each prayer in
@@ -139,6 +137,11 @@ public class Method {
 		return extremeLatitude;
 	}
 	
+	/**
+	 * 
+	 * @param extreme Extreme latitude calculation method
+	 * @see ExtremeLatitude
+	 */
 	public void setExtremeLatitude(ExtremeLatitude extreme) {
 		this.extremeLatitude = extreme;
 	}
@@ -155,6 +158,11 @@ public class Method {
 		return fajrInv;
 	}
 	
+	/**
+	 * 
+	 * @param fajrInv Fajr Interval is the amount of minutes between Fajr and 
+	 *  Shurooq (0 if not used)
+	 */
 	public void setFajrInv(int fajrInv) {
 		this.fajrInv = fajrInv;
 	}
@@ -163,6 +171,11 @@ public class Method {
 		return imsaakAng;
 	}
 	
+	/**
+	 * 
+	 * @param imsaakAng The angle difference between Imsaak and Fajr (default
+	 *  is 1.5)
+	 */
 	public void setImsaakAng(double imsaakAng) {
 		this.imsaakAng = imsaakAng;
 	}
@@ -171,6 +184,11 @@ public class Method {
 		return imsaakInv;
 	}
 	
+	/**
+	 * 
+	 * @param imsaakInv Imsaak Interval is the amount of minutes between Imsaak
+	 *  and Fajr. The default is 10 minutes before Fajr if Fajr Interval is set
+	 */
 	public void setImsaakInv(int imsaakInv) {
 		this.imsaakInv = imsaakInv;
 	}
@@ -187,6 +205,11 @@ public class Method {
 		return ishaaInv;
 	}
 	
+	/**
+	 * 
+	 * @param ishaaInv Ishaa Interval is the amount if minutes between Ishaa and
+	 *  Maghrib (0 if not used)
+	 */
 	public void setIshaaInv(int ishaaInv) {
 		this.ishaaInv = ishaaInv;
 	}
@@ -195,6 +218,11 @@ public class Method {
 		return mathhab;
 	}
 	
+	/**
+	 * 
+	 * @param mathhab mathhab for calculating assr prayer shadow ratio
+	 * @see Mathhab
+	 */
 	public void setMathhab(Mathhab mathhab) {
 		this.mathhab = mathhab;
 	}
@@ -203,6 +231,11 @@ public class Method {
 		return nearestLat;
 	}
 	
+	/**
+	 * 
+	 * @param nearestLat Latitude Used for the 'Nearest Latitude' extreme
+	 *  methods. The default is 48.5
+	 */
 	public void setNearestLat(double nearestLat) {
 		this.nearestLat = nearestLat;
 	}
@@ -211,6 +244,18 @@ public class Method {
 		return offset;
 	}
 	
+	/**
+	 * 
+	 * @param offset Enable Offsets switch (set this to 1 to activate). This
+	 *  option allows you to add or subtract any amount of minutes to the daily
+	 *  computed prayer times based on values (in minutes) for each prayer in
+	 *  the next xxxOffset parameters 	
+	 *  For Example: If you want to add 30 seconds to Maghrib and subtract 2
+	 *  minutes from Ishaa: 
+	 *   offset = 1 
+	 *   maghribOffset = 0.5 
+	 *   ishaaOffset = -2	 
+	 */
 	public void setOffset(int offset) {
 		this.offset = offset;
 	}
@@ -219,6 +264,11 @@ public class Method {
 		return round;
 	}
 	
+	/**
+	 * 
+	 * @param round Method used for rounding seconds
+	 * @see Rounding
+	 */
 	public void setRound(Rounding round) {
 		this.round = round;
 	}
@@ -228,28 +278,89 @@ public class Method {
 	 nearestLat =  Utils.DEF_NEAREST_LATITUDE , extreme = 5, offset = 0, offList = null
 	 */
 	
-	public static final Method NONE = new Method(0.0, 0.0, 0, 0, 0, 0, Rounding.SPECIAL, Mathhab.SHAAFI,
+	public static final Method NONE = new Method(0.0, 0.0, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0, Rounding.SPECIAL, Mathhab.SHAAFI,
 			Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
-	public static final Method EGYPT_SURVEY = new Method(20, 18, 0, 0, 0, 0, Rounding.SPECIAL,
+	/**
+	 *         1- Egyptian General Authority of Survey
+     *   ======================================================
+     *   Fajr Angle      = 20                                 
+     *   Ishaa Angle     = 18                                 
+     *   Used in:        Indonesia       Iraq                 
+     *                   Jordan          Lebanon      
+     *                   Malaysia        Singapore     
+     *                   Syria           parts of Africa      
+     *                   parts of United States
+	 */
+	public static final Method EGYPT_SURVEY = new Method(20, 18, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0, Rounding.SPECIAL,
 			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
-	public static final Method KARACHI_SHAF = new Method(18, 18, 0, 0, 0, 0, Rounding.SPECIAL,
+    /**
+     *     2- University of Islamic Sciences, Karachi (Shaf'i)
+     *       ======================================================
+     *       Fajr Angle      = 18                                 
+     *       Ishaa Angle     = 18                                 
+     *       Used in:        Iran    Kuwait                       
+     *                       parts of Europe                      
+     */ 
+	public static final Method KARACHI_SHAF = new Method(18, 18, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0, Rounding.SPECIAL,
 			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
-	public static final Method KARACHI_HANAF = new Method(18, 18, 0, 0, 0, 0,
+	/**
+	 *         3- University of Islamic Sciences, Karachi (Hanafi)
+     *   ======================================================
+     *   Fajr Angle      = 18                                 
+     *   Ishaa Angle     = 18                                 
+     *   Used in:        Afghanistan     Bangladesh           
+     *                   India                                
+	 */
+	public static final Method KARACHI_HANAF = new Method(18, 18, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0,
 			Rounding.SPECIAL, Mathhab.HANAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
-	public static final Method NORTH_AMERICA = new Method(15, 15, 0, 0, 0, 0,
+	/**
+	 *         4- Islamic Society of North America
+     *   ======================================================
+     *   Fajr Angle      = 15                                 
+     *   Ishaa Angle     = 15                                 
+     *   Used in:        Canada  Parts of UK                  
+     *                   parts of United States               
+	 */
+	public static final Method NORTH_AMERICA = new Method(15, 15, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0,
 			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
-	public static final Method MUSLIM_LEAGUE = new Method(18, 17, 0, 0, 0, 0,
+	/**
+	 *         5- Muslim World League (MWL)
+     *   ======================================================
+     *   Fajr Angle      = 18                                 
+     *   Ishaa Angle     = 17                                 
+     *   Used in:        parts of Europe   Far East           
+     *                   parts of United States               
+	 */
+	public static final Method MUSLIM_LEAGUE = new Method(18, 17, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0,
 			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
-	public static final Method UMM_ALQURRA = new Method(19, 0, 0, 0, 90, 0, Rounding.SPECIAL,
+	/**
+	 *         6- Om Al-Qurra University
+     *   ======================================================
+     *   Fajr Angle      = 19                                 
+     *   Ishaa Angle     = 0 (not used)                       
+     *   Ishaa Interval  = 90 minutes from Al-Maghrib prayer  
+     *                     but set to 120 during Ramadan.     
+     *   Used in:        Saudi Arabia                         
+	 */
+	public static final Method UMM_ALQURRA = new Method(19, 0, Utils.DEF_IMSAAK_ANGLE, 0, 90, 0, Rounding.SPECIAL,
 			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
-	public static final Method FIXED_ISHAA = new Method(19.5, 0, 0, 0, 90, 0,
+	/**
+	 *         7- Fixed Ishaa Angle Interval (always 90)
+     *   ======================================================
+     *   Fajr Angle      = 19.5                               
+     *   Ishaa Angle     = 0 (not used)                       
+     *   Ishaa Interval  = 90 minutes from Al-Maghrib prayer. 
+     *   Used in:          Bahrain       Oman                 
+     *                     Qatar         United Arab Emirates 
+	 */
+	public static final Method FIXED_ISHAA = new Method(19.5, 0, Utils.DEF_IMSAAK_ANGLE, 0, 90, 0,
 			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
 	
 	public double getAssrOffset() {
