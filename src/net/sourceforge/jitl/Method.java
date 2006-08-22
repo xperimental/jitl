@@ -23,7 +23,7 @@ public class Method {
 	
 	private ExtremeLatitude extremeLatitude;
 	
-	private int offset;
+	private boolean offset;
 	
 	private double fajrOffset;
 	
@@ -84,15 +84,15 @@ public class Method {
 	 * @param nearestLat Latitude Used for the 'Nearest Latitude' extreme
 	 *  methods. The default is 48.5
 	 * @param extreme Extreme latitude calculation method (@see ExtremeLatitude) 
-	 * @param offset Enable Offsets switch (set this to 1 to activate). This
+	 * @param offset Enable Offsets switch (set this to true to activate). This
 	 *  option allows you to add or subtract any amount of minutes to the daily
 	 *  computed prayer times based on values (in minutes) for each prayer in
 	 *  the next xxxOffset parameters 	
 	 *  For Example: If you want to add 30 seconds to Maghrib and subtract 2
 	 *  minutes from Ishaa: 
-	 *   offset = 1 
-	 *   maghribOffset = 0.5 
-	 *   ishaaOffset = -2	 
+	 *   <code>method.setOffset(true); 
+	 *   method.setMaghribOffset(0.5); 
+	 *   method.setIshaaOffset(-2); </code>	 
 	 * @param fajrOffset fajr offset
 	 * @param shurooqOffset shurooq offset
 	 * @param thuhrOffset thuhr offset
@@ -102,7 +102,7 @@ public class Method {
 	 */
 	public Method(double fajrAng, double ishaaAng, double imsaakAng,
 			int fajrInv, int ishaaInv, int imsaakInv, Rounding round, Mathhab mathhab,
-			double nearestLat, ExtremeLatitude extreme, int offset, double fajrOffset,
+			double nearestLat, ExtremeLatitude extreme, boolean offset, double fajrOffset,
 			double shurooqOffset, double thuhrOffset, double assrOffset,
 			double maghribOffset, double ishaaOffset) {
 		this.fajrAng = fajrAng;
@@ -126,6 +126,11 @@ public class Method {
 		
 	}
 	
+	/**
+	 * copy constructor
+	 * @return a new instance of Method containing a clone of
+	 * the current instance
+	 */
 	public Method copy() {
 		return new Method(fajrAng, ishaaAng, imsaakAng, fajrInv, ishaaInv,
 				imsaakInv, round, mathhab, nearestLat, extremeLatitude, offset,
@@ -240,23 +245,23 @@ public class Method {
 		this.nearestLat = nearestLat;
 	}
 	
-	public int getOffset() {
+	public boolean getOffset() {
 		return offset;
 	}
 	
 	/**
 	 * 
-	 * @param offset Enable Offsets switch (set this to 1 to activate). This
+	 * @param offset Enable Offsets switch (set this to true to activate). This
 	 *  option allows you to add or subtract any amount of minutes to the daily
 	 *  computed prayer times based on values (in minutes) for each prayer in
 	 *  the next xxxOffset parameters 	
 	 *  For Example: If you want to add 30 seconds to Maghrib and subtract 2
 	 *  minutes from Ishaa: 
-	 *   offset = 1 
-	 *   maghribOffset = 0.5 
-	 *   ishaaOffset = -2	 
+	 *   <code>method.setOffset(true); 
+	 *   method.setMaghribOffset(0.5); 
+	 *   method.setIshaaOffset(-2); </code>	 
 	 */
-	public void setOffset(int offset) {
+	public void setOffset(boolean offset) {
 		this.offset = offset;
 	}
 	
@@ -279,7 +284,7 @@ public class Method {
 	 */
 	
 	public static final Method NONE = new Method(0.0, 0.0, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0, Rounding.SPECIAL, Mathhab.SHAAFI,
-			Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
+			Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
 	 *         1- Egyptian General Authority of Survey
@@ -293,7 +298,7 @@ public class Method {
      *                   parts of United States
 	 */
 	public static final Method EGYPT_SURVEY = new Method(20, 18, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0, Rounding.SPECIAL,
-			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
+			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
     /**
      *     2- University of Islamic Sciences, Karachi (Shaf'i)
@@ -304,7 +309,7 @@ public class Method {
      *                       parts of Europe                      
      */ 
 	public static final Method KARACHI_SHAF = new Method(18, 18, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0, Rounding.SPECIAL,
-			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
+			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
 	 *         3- University of Islamic Sciences, Karachi (Hanafi)
@@ -315,7 +320,7 @@ public class Method {
      *                   India                                
 	 */
 	public static final Method KARACHI_HANAF = new Method(18, 18, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0,
-			Rounding.SPECIAL, Mathhab.HANAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.HANAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
 	 *         4- Islamic Society of North America
@@ -326,7 +331,7 @@ public class Method {
      *                   parts of United States               
 	 */
 	public static final Method NORTH_AMERICA = new Method(15, 15, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0,
-			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
 	 *         5- Muslim World League (MWL)
@@ -337,7 +342,7 @@ public class Method {
      *                   parts of United States               
 	 */
 	public static final Method MUSLIM_LEAGUE = new Method(18, 17, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0,
-			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
 	 *         6- Om Al-Qurra University
@@ -349,7 +354,7 @@ public class Method {
      *   Used in:        Saudi Arabia                         
 	 */
 	public static final Method UMM_ALQURRA = new Method(19, 0, Utils.DEF_IMSAAK_ANGLE, 0, 90, 0, Rounding.SPECIAL,
-			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
+			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
 	 *         7- Fixed Ishaa Angle Interval (always 90)
@@ -361,7 +366,7 @@ public class Method {
      *                     Qatar         United Arab Emirates 
 	 */
 	public static final Method FIXED_ISHAA = new Method(19.5, 0, Utils.DEF_IMSAAK_ANGLE, 0, 90, 0,
-			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, 0, 0, 0, 0, 0, 0, 0);
+			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	public double getAssrOffset() {
 		return assrOffset;

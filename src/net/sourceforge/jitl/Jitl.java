@@ -420,7 +420,7 @@ public class Jitl {
 		}
 		
 		/* Add offsets */
-		if (method.getOffset() == 1) {
+		if (method.getOffset()) {
 			if (type == PrayerTime.IMSAAK || type == PrayerTime.NEXTFAJR)
 				bs += (method.getFajrOffset() / 60.0);
 			else
@@ -513,7 +513,7 @@ public class Jitl {
 			/* use an inv even if al-Fajr is computed (Indonesia?) */
 			tmpConf.setFajrOffset(tmpConf.getFajrOffset()
 					+ (method.getImsaakInv() * -1));
-			tmpConf.setOffset(1);
+			tmpConf.setOffset(true);
 		} else {
 			tmpConf.setFajrAng(tmpConf.getFajrAng() + method.getImsaakAng());
 		}
@@ -530,11 +530,11 @@ public class Jitl {
 			if (method.getImsaakInv() == 0) {
 				tmpConf.setFajrOffset(tmpConf.getFajrOffset()
 						- Utils.DEF_IMSAAK_INTERVAL);
-				tmpConf.setOffset(1);
+				tmpConf.setOffset(true);
 			} else {
 				tmpConf.setFajrOffset(tmpConf.getFajrOffset()
 						- method.getImsaakInv());
-				tmpConf.setOffset(1);
+				tmpConf.setOffset(true);
 			}
 			getPrayerTimesByDay(tmpConf, dc, temp, PrayerTime.IMSAAK);
 		}
