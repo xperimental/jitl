@@ -8,11 +8,7 @@ public class Prayer {
 	
 	private int second; /* prayer time second */
 	
-	private boolean extreme; /* Extreme calculation switch. The 'getPrayerTimes'
-	function sets this switch to 1 to indicate that this
-	particular prayer time has been calculated through
-	extreme latitude methods and NOT by conventional
-	means of calculation. */
+	private boolean extreme; /*  */
 	
 	public Prayer(int hour, int minute, int second, boolean extreme) {
 		super();
@@ -38,6 +34,13 @@ public class Prayer {
 		this.hour = hour;
 	}
 	
+	/**
+	 * @return Extreme calculation switch. The 'getPrayerTimes'
+	 * function sets this switch to true to indicate that this
+	 * particular prayer time has been calculated through
+	 * extreme latitude methods and NOT by conventional
+	 * means of calculation.
+	 */
 	public boolean isExtreme() {
 		return extreme;
 	}

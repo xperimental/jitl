@@ -1,7 +1,6 @@
 package net.sourceforge.jitl.astro;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class SimpleDate {
 	int day;
@@ -21,17 +20,15 @@ public class SimpleDate {
 		this.month = month;
 		this.year = year;
 	}
-	
+		
 	/**
 	 * TODO
-	 * @param date
-	 * @param calendar
+	 * @param gCalendar
 	 */
-	public SimpleDate(Date date, Calendar calendar) {
-		calendar.setTime(date);
-		this.day = calendar.get(Calendar.DATE);
-		this.month = calendar.get(Calendar.MONTH) + 1;
-		this.year = calendar.get(Calendar.YEAR);
+	public SimpleDate(GregorianCalendar gCalendar) {
+		this.day = gCalendar.get(GregorianCalendar.DATE);
+		this.month = gCalendar.get(GregorianCalendar.MONTH) + 1;
+		this.year = gCalendar.get(GregorianCalendar.YEAR);		
 	}
 	
 	public SimpleDate copy() {

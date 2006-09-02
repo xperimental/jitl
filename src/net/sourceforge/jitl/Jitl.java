@@ -1,7 +1,6 @@
 package net.sourceforge.jitl;
 
-import java.util.Date;
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import net.sourceforge.jitl.astro.Astro;
 import net.sourceforge.jitl.astro.AstroLib;
@@ -10,6 +9,10 @@ import net.sourceforge.jitl.astro.Dms;
 import net.sourceforge.jitl.astro.Location;
 import net.sourceforge.jitl.astro.Utils;
 
+/**
+ * TODO
+ * 
+ */
 public class Jitl {
 	
 	/**
@@ -31,8 +34,7 @@ public class Jitl {
 	private Location loc;
 	
 	private Method method;
-	
-	private Calendar calendar;
+
 	
 	/**
 	 * Creates the jitl main class
@@ -61,24 +63,15 @@ public class Jitl {
 	public void setMethod(Method method) {
 		this.method = method;
 	}
-	
-	/**
-	 * sets the calendar. This must be called if the Date type is used
-	 *  otherwise SimpleDate must be used
-	 * @param calendar
-	 */
-	public void setCalendar(Calendar calendar) {
-		this.calendar = calendar;
-	}
-	
+		
 	/**
 	 * generates prayer times
 	 * @param date the date of prayers
 	 * @return a DayPrayers object containing time of different
 	 * prayers 
 	 */
-	public DayPrayers getPrayerTimes(final Date date) {
-		return getPrayerTimes(new SimpleDate(date, calendar));
+	public DayPrayers getPrayerTimes(final GregorianCalendar date) {
+		return getPrayerTimes(new SimpleDate(date));
 	}
 	
 	/**
@@ -86,8 +79,8 @@ public class Jitl {
 	 * @param date
 	 * @param pt
 	 */
-	public void getPrayerTimes(final Date date, DayPrayers pt) {
-		getPrayerTimes(new SimpleDate(date, calendar), pt);
+	public void getPrayerTimes(final GregorianCalendar date, DayPrayers pt) {
+		getPrayerTimes(new SimpleDate(date), pt);
 	}
 	
 	/**
@@ -484,8 +477,8 @@ public class Jitl {
 	 * @param date
 	 * @return
 	 */
-	public Prayer getImsaak(Date date) {
-		return getImsaak(new SimpleDate(date, calendar));
+	public Prayer getImsaak(GregorianCalendar date) {
+		return getImsaak(new SimpleDate(date));
 	}
 	
 	/**
@@ -547,8 +540,8 @@ public class Jitl {
 	 * @param date
 	 * @return
 	 */
-	public Prayer getNextDayImsaak(Date date) {
-		return getNextDayImsaak(new SimpleDate(date, calendar));
+	public Prayer getNextDayImsaak(GregorianCalendar date) {
+		return getNextDayImsaak(new SimpleDate(date));
 	}
 	
 	/**
@@ -569,8 +562,8 @@ public class Jitl {
 	 * @param date
 	 * @return
 	 */
-	public Prayer getNextDayFajr(Date date) {
-		return getNextDayFajr(new SimpleDate(date, calendar));
+	public Prayer getNextDayFajr(GregorianCalendar date) {
+		return getNextDayFajr(new SimpleDate(date));
 	}
 	
 	/**
