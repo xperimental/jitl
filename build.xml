@@ -31,7 +31,6 @@
 	<!--Compiles the source directory           -->
 	<target name="compile" depends="init,initdirs" description="compile project">
 		<javac destdir="${output.classes}" debug="${debug}" verbose="${verbose}" optimize="${optimize}" deprecation="${deprecation}" failonerror="yes">
-			<classpath refid="classpath.common" /> 
 			<classpath>
 				<pathelement location="${output.classes}"/>
 			</classpath>
