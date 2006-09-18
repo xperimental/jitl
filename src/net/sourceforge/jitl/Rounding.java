@@ -1,5 +1,8 @@
 package net.sourceforge.jitl;
 
+/**
+ * This class is used to round prayer times (seconds).
+ */
 public class Rounding {
 	 
 	private Rounding(){

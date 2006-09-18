@@ -1,5 +1,4 @@
 package net.sourceforge.jitl;
-
 class DayCouple {
 	private int lastDay;
 

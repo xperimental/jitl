@@ -1,5 +1,7 @@
 package net.sourceforge.jitl;
-
+/**
+ * Mathhab is used for Assr prayer calculation. 
+ */
 public class Mathhab {
 	private Mathhab(){
 		

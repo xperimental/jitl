@@ -89,7 +89,7 @@ public class Method {
 	 *  computed prayer times based on values (in minutes) for each prayer in
 	 *  the next xxxOffset parameters 	
 	 *  For Example: If you want to add 30 seconds to Maghrib and subtract 2
-	 *  minutes from Ishaa: 
+	 *  minutes from Ishaa:<br /> 
 	 *   <code>method.setOffset(true); 
 	 *   method.setMaghribOffset(0.5); 
 	 *   method.setIshaaOffset(-2); </code>	 
@@ -287,83 +287,78 @@ public class Method {
 			Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
-	 *         1- Egyptian General Authority of Survey
-     *   ======================================================
-     *   Fajr Angle      = 20                                 
-     *   Ishaa Angle     = 18                                 
-     *   Used in:        Indonesia       Iraq                 
-     *                   Jordan          Lebanon      
-     *                   Malaysia        Singapore     
-     *                   Syria           parts of Africa      
-     *                   parts of United States
+	 * Egyptian General Authority of Survey<br />
+     * <ul>
+     * <li>Fajr Angle      = 20</li>
+     * <li>Ishaa Angle     = 18</li>
+     * <li>Used in:
+     *  Indonesia, Iraq, Jordan, Lebanon, Malaysia, Singapore, Syria, parts of Africa, 
+     *  parts of United States</li>
+     *  </ul>
 	 */
 	public static final Method EGYPT_SURVEY = new Method(20, 18, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0, Rounding.SPECIAL,
 			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
     /**
-     *     2- University of Islamic Sciences, Karachi (Shaf'i)
-     *       ======================================================
-     *       Fajr Angle      = 18                                 
-     *       Ishaa Angle     = 18                                 
-     *       Used in:        Iran    Kuwait                       
-     *                       parts of Europe                      
+     * University of Islamic Sciences, Karachi (Shaf'i)<br />
+     * <ul><li>      Fajr Angle      = 18</li>                                 
+     *       <li>Ishaa Angle     = 18</li>                                 
+     *       <li>Used in:        Iran, Kuwait, parts of Europe
+     *       </li></ul>
      */ 
 	public static final Method KARACHI_SHAF = new Method(18, 18, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0, Rounding.SPECIAL,
 			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
-	 *         3- University of Islamic Sciences, Karachi (Hanafi)
-     *   ======================================================
-     *   Fajr Angle      = 18                                 
-     *   Ishaa Angle     = 18                                 
-     *   Used in:        Afghanistan     Bangladesh           
-     *                   India                                
+	 *   University of Islamic Sciences, Karachi (Hanafi)<br />   
+     *   <ul><li>Fajr Angle      = 18</li>                                 
+     *   <li>Ishaa Angle     = 18</li>                                 
+     *   <li>Used in:        Afghanistan, Bangladesh, India</li>
+     *   </ul>                                
 	 */
 	public static final Method KARACHI_HANAF = new Method(18, 18, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0,
 			Rounding.SPECIAL, Mathhab.HANAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
-	 *         4- Islamic Society of North America
-     *   ======================================================
-     *   Fajr Angle      = 15                                 
-     *   Ishaa Angle     = 15                                 
-     *   Used in:        Canada  Parts of UK                  
-     *                   parts of United States               
+	 *  Islamic Society of North America<br />
+     *   <ul><li>Fajr Angle      = 15</li>                                 
+     *   <li>Ishaa Angle     = 15</li>                                 
+     *   <li>Used in:        Canada, Parts of UK, parts of United States</li>
+     *   </ul>                  
 	 */
 	public static final Method NORTH_AMERICA = new Method(15, 15, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0,
 			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
-	 *         5- Muslim World League (MWL)
-     *   ======================================================
-     *   Fajr Angle      = 18                                 
-     *   Ishaa Angle     = 17                                 
-     *   Used in:        parts of Europe   Far East           
-     *                   parts of United States               
+	 *   Muslim World League (MWL)<br />
+     *   <ul><li>Fajr Angle      = 18</li>                                 
+     *   <li>Ishaa Angle     = 17</li>                                 
+     *   <li>Used in:        parts of Europe, Far East, parts of United States</li>
+     *   </ul>
+     *              
 	 */
 	public static final Method MUSLIM_LEAGUE = new Method(18, 17, Utils.DEF_IMSAAK_ANGLE, 0, 0, 0,
 			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
-	 *         6- Om Al-Qurra University
-     *   ======================================================
-     *   Fajr Angle      = 19                                 
-     *   Ishaa Angle     = 0 (not used)                       
-     *   Ishaa Interval  = 90 minutes from Al-Maghrib prayer  
-     *                     but set to 120 during Ramadan.     
-     *   Used in:        Saudi Arabia                         
+	 *  Om Al-Qurra University<br />
+     *   <ul><li>Fajr Angle      = 19</li>                                 
+     *   <li>Ishaa Angle     = 0 (not used)</li>                       
+     *   <li>Ishaa Interval  = 90 minutes from Al-Maghrib prayer  
+     *                     but set to 120 during Ramadan.</li>     
+     *   <li>Used in:        Saudi Arabia</li>
+     *   </ul>                         
 	 */
 	public static final Method UMM_ALQURRA = new Method(19, 0, Utils.DEF_IMSAAK_ANGLE, 0, 90, 0, Rounding.SPECIAL,
 			Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
 	
 	/**
-	 *         7- Fixed Ishaa Angle Interval (always 90)
-     *   ======================================================
-     *   Fajr Angle      = 19.5                               
-     *   Ishaa Angle     = 0 (not used)                       
-     *   Ishaa Interval  = 90 minutes from Al-Maghrib prayer. 
-     *   Used in:          Bahrain       Oman                 
-     *                     Qatar         United Arab Emirates 
+	 *   Fixed Ishaa Angle Interval (always 90)<br />
+     *   <ul><li>Fajr Angle      = 19.5</li>                               
+     *   <li>Ishaa Angle     = 0 (not used)</li>                       
+     *   <li>Ishaa Interval  = 90 minutes from Al-Maghrib prayer.</li> 
+     *   <li>Used in:          Bahrain, Oman, Qatar, United Arab Emirates</li>
+     *   </ul> 
 	 */
 	public static final Method FIXED_ISHAA = new Method(19.5, 0, Utils.DEF_IMSAAK_ANGLE, 0, 90, 0,
 			Rounding.SPECIAL, Mathhab.SHAAFI, Utils.DEF_NEAREST_LATITUDE, ExtremeLatitude.GOOD_INVALID, false, 0, 0, 0, 0, 0, 0);
@@ -389,7 +384,7 @@ public class Method {
 	}
 	
 	public void setIshaaOffset(double ishaaOffset) {
-		this.ishaaOffset = ishaaOffset;
+		this.ishaaOffset = ishaaOffset;		
 	}
 	
 	public double getMaghribOffset() {

@@ -1,5 +1,8 @@
 package net.sourceforge.jitl;
 
+/**
+ * This class encapsulates prayer times.
+ */
 public class Prayer {
 	
 	private int hour; /* prayer time hour */
@@ -22,6 +25,10 @@ public class Prayer {
 		
 	}
 	
+	/**
+	 * copy constructor
+	 * @return a copy of the current instance
+	 */
 	public Prayer copy() {
 		return new Prayer(hour, minute, second, extreme);
 	}

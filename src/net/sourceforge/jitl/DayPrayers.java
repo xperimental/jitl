@@ -3,10 +3,8 @@ package net.sourceforge.jitl;
 import java.util.Iterator;
 
 /**
- * Encapsulates the list of prayers time + shuruq time
- * 
+ * Encapsulates the list of prayers time and shuruq time
  */
-
 public class DayPrayers {
 	private Prayer[] prayers = new Prayer[6];
 	
@@ -19,16 +17,16 @@ public class DayPrayers {
 	/**
 	 * set all prayer calculation to extreme
 	 * 
-	 * @param b
+	 * @param extreme extreme boolean value 
 	 */
-	void setAllExtreme(boolean b) {
+	void setAllExtreme(boolean extreme) {
 		for (int i = 0; i < 6; i++) {
-			prayers[i].setExtreme(b);
+			prayers[i].setExtreme(extreme);
 		}
 	}
 	
 	/**
-	 * 
+	 * Fajr prayer time 
 	 * @return fajr prayer time
 	 */
 	public Prayer fajr() {
@@ -36,7 +34,7 @@ public class DayPrayers {
 	}
 	
 	/**
-	 * 
+	 * Shuruq time 
 	 * @return shuruq time
 	 */
 	public Prayer shuruq() {
@@ -44,7 +42,7 @@ public class DayPrayers {
 	}
 	
 	/**
-	 * 
+	 * Thuhr time 
 	 * @return thuhr prayer time
 	 */
 	public Prayer thuhr() {
@@ -52,7 +50,7 @@ public class DayPrayers {
 	}
 	
 	/**
-	 * 
+	 * Assr time
 	 * @return assr prayer time
 	 */
 	public Prayer assr() {
@@ -60,7 +58,7 @@ public class DayPrayers {
 	}
 	
 	/**
-	 * 
+	 * Maghrib time 
 	 * @return maghrib time
 	 */
 	public Prayer maghrib() {
@@ -68,7 +66,7 @@ public class DayPrayers {
 	}
 	
 	/**
-	 * 
+	 * Ishaa time
 	 * @return ishaa time
 	 */
 	public Prayer ishaa() {
@@ -76,16 +74,16 @@ public class DayPrayers {
 	}
 	
 	/**
-	 * 
+	 * Get prayer list as an array 
 	 * @return an array containing the list of prayer times including the
 	 *         shuruq. The size of the array is 6.
-	 * @see #iterator()
 	 */
 	public Prayer[] getPrayers() {
 		return prayers;
 	}
 	
 	/**
+	 * convert prayer times to a string.
 	 * @return prayer times as a string. It contains 6 lines
 	 */
 	public String toString() {
@@ -97,7 +95,7 @@ public class DayPrayers {
 	}
 	
 	/**
-	 * 
+	 * Creates an iterator on the prayers
 	 * @return an iterator over the prayers
 	 * @see #getPrayers()
 	 */

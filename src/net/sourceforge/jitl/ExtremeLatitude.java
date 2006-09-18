@@ -41,35 +41,35 @@ public class ExtremeLatitude {
 	}
 	
     /**
-     * 0:  none. If unable to calculate, leave only the invalid prayer
+     * none. If unable to calculate, leave only the invalid prayer
      *           time as 99:99.
      */
 	public static final ExtremeLatitude NONE_EX = new ExtremeLatitude();
     
     /**
-     * 1: Nearest Latitude: Apply to all prayer times always.
+     * Nearest Latitude: Apply to all prayer times always.
      */	
 	public static final ExtremeLatitude LAT_ALL = new ExtremeLatitude();
 	  
     /**
-     * 2:  Nearest Latitude: Apply to Fajr and Ishaa times always.
+     * Nearest Latitude: Apply to Fajr and Ishaa times always.
      */
 	public static final ExtremeLatitude LAT_ALWAYS = new ExtremeLatitude();
 	
 	/**
-	 * 3:  Nearest Latitude: Apply to Fajr and Ishaa times but only if
+	 * Nearest Latitude: Apply to Fajr and Ishaa times but only if
      *                       the library has detected that the current
      *                       Fajr or Ishaa time is invalid.
 	 */
 	public static final ExtremeLatitude LAT_INVALID  = new ExtremeLatitude();
 	
 	/**
-	 * 4:  Nearest Good Day: Apply to all prayer times always.
+	 * Nearest Good Day: Apply to all prayer times always.
 	 */	
 	public static final ExtremeLatitude GOOD_ALL = new ExtremeLatitude();
 	
 	/**
-	 * 5:  Nearest Good Day: Apply to Fajr and Ishaa times but only if
+	 * Nearest Good Day: Apply to Fajr and Ishaa times but only if
      *                       the library has detected that the current
      *                       Fajr or Ishaa time is invalid. This is the
      *                       default method. (Default)
@@ -77,12 +77,12 @@ public class ExtremeLatitude {
 	public static final ExtremeLatitude GOOD_INVALID = new ExtremeLatitude();
 	
 	/**
-	 * 6:  1/7th of Night: Apply to Fajr and Ishaa times always.
+	 * 1/7th of Night: Apply to Fajr and Ishaa times always.
 	 */
 	public static final ExtremeLatitude SEVEN_NIGHT_ALWAYS = new ExtremeLatitude();
 
 	/**
-	 * 7:  1/7th of Night: Apply to Fajr and Ishaa times but only if
+	 * 1/7th of Night: Apply to Fajr and Ishaa times but only if
      *                       the library has detected that the current
      *                       Fajr or Ishaa time is invalid.
      *
@@ -90,24 +90,24 @@ public class ExtremeLatitude {
 	public static final ExtremeLatitude SEVEN_NIGHT_INVALID = new ExtremeLatitude();
 	
 	/**
-	 * 8:  1/7th of Day: Apply to Fajr and Ishaa times always.
+	 * 1/7th of Day: Apply to Fajr and Ishaa times always.
 	 */
 	public static final ExtremeLatitude SEVEN_DAY_ALWAYS = new ExtremeLatitude();
 	
 	/**
-	 * 9:  1/7th of Day: Apply to Fajr and Ishaa times but only if the
+	 * 1/7th of Day: Apply to Fajr and Ishaa times but only if the
      *                       library has detected that the current Fajr
      *                       or Ishaa time is invalid.
 	 */
 	public static final ExtremeLatitude SEVEN_DAY_INVALID = new ExtremeLatitude();
 	
 	/**
-	 * 10: Half of the Night: Apply to Fajr and Ishaa times always.
+	 * Half of the Night: Apply to Fajr and Ishaa times always.
 	 */
 	public static final ExtremeLatitude HALF_ALWAYS = new ExtremeLatitude();
 	
 	/**
-	 * 11: Half of the Night: Apply to Fajr and Ishaa times but only
+	 * Half of the Night: Apply to Fajr and Ishaa times but only
      *                         if the library has detected that the
      *                         current Fajr or Ishaa time is
      *                         invalid.
@@ -115,12 +115,12 @@ public class ExtremeLatitude {
 	public static final ExtremeLatitude HALF_INVALID = new ExtremeLatitude();
 	
 	/**
-	 * 12: Minutes from Shorooq/Maghrib: Apply to Fajr and Ishaa times always.
+	 * Minutes from Shorooq/Maghrib: Apply to Fajr and Ishaa times always.
 	 */
 	public static final ExtremeLatitude MIN_ALWAYS = new ExtremeLatitude();
 
 	/**
-	 * 13: Minutes from Shorooq/Maghrib: Apply to Fajr and Ishaa times but only if
+	 * Minutes from Shorooq/Maghrib: Apply to Fajr and Ishaa times but only if
      *                       the library has detected that the
      *                       current Fajr or Ishaa time is invalid.
      *

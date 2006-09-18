@@ -10,7 +10,9 @@ import net.sourceforge.jitl.astro.Location;
 import net.sourceforge.jitl.astro.Utils;
 
 /**
- * TODO
+ * This the main class of the JITL library. You can use static methods
+ * to do qibla calculation but you will need to create a Jitl instance
+ * to calculate prayer times for a specific location, using a specified method.
  * 
  */
 public class Jitl {
@@ -40,7 +42,7 @@ public class Jitl {
 	 * Creates the jitl main class
 	 * @param loc the location
 	 * @param method the method used in the calculation. You can use
-	 *  predefined methods for example Method.MUSLIM_LEAGUE or creates
+	 *  predefined methods for example <code>Method.MUSLIM_LEAGUE</code> or creates
 	 *  your own personalized method.
 	 */
 	public Jitl(Location loc, Method method) {
@@ -50,7 +52,7 @@ public class Jitl {
 	
 	/**
 	 * changes the location
-	 * @param loc
+	 * @param loc the new location
 	 */
 	public void setLocation(Location loc) {
 		this.loc = loc;
@@ -58,7 +60,7 @@ public class Jitl {
 	
 	/**
 	 * changes the method
-	 * @param method
+	 * @param method the new method
 	 */
 	public void setMethod(Method method) {
 		this.method = method;
@@ -75,17 +77,18 @@ public class Jitl {
 	}
 	
 	/**
-	 * generate prayer times
-	 * @param date
-	 * @param pt
+	 * Generate prayer times from a GregorianCalendar date
+	 * @param date the date of prayers
+	 * @param pt instance of a DayPrayers object
 	 */
 	public void getPrayerTimes(final GregorianCalendar date, DayPrayers pt) {
 		getPrayerTimes(new SimpleDate(date), pt);
 	}
 	
 	/**
-	 * 
+	 * Create a DayPrayers instance and fill it with prayer times
 	 * @param date SimpleDate object
+	 * @return a DayPrayers instance containing prayer times
 	 */
 	public DayPrayers getPrayerTimes(final SimpleDate date) {
 		DayPrayers dp = new DayPrayers();
@@ -95,9 +98,9 @@ public class Jitl {
 	}
 	
 	/**
-	 * 
-	 * @param date
-	 * @param pt
+	 * Generate prayer times from a SimpleDate date
+	 * @param date SimpleDate object
+	 * @param pt instance of a DayPrayers object
 	 */
 	public void getPrayerTimes(final SimpleDate date, DayPrayers pt) {
 		DayCouple dc;
@@ -473,18 +476,18 @@ public class Jitl {
 	}
 	
 	/**
-	 * 
-	 * @param date
-	 * @return
+	 * Generate imsaak time
+	 * @param date GregorianCalendar date
+	 * @return imsaak time
 	 */
 	public Prayer getImsaak(GregorianCalendar date) {
 		return getImsaak(new SimpleDate(date));
 	}
 	
 	/**
-	 * 
-	 * @param date
-	 * @return
+	 * Generate imsaak time
+	 * @param date SimpleDate date
+	 * @return imsaak time
 	 */
 	public Prayer getImsaak(SimpleDate date) {
 		
@@ -536,18 +539,18 @@ public class Jitl {
 	}
 	
 	/**
-	 * 
-	 * @param date
-	 * @return
+	 * Generate next day imsaak time
+	 * @param date GregorianCalendar date
+	 * @return next day imsaak time
 	 */
 	public Prayer getNextDayImsaak(GregorianCalendar date) {
 		return getNextDayImsaak(new SimpleDate(date));
 	}
 	
 	/**
-	 * 
-	 * @param date
-	 * @return
+	 * Generate next day imsaak time
+	 * @param date SimpleDate date
+	 * @return next day imsaak time
 	 */
 	public Prayer getNextDayImsaak(SimpleDate date) {
 		/* Copy the date structure and increment for next day.*/
@@ -558,18 +561,18 @@ public class Jitl {
 	}
 	
 	/**
-	 * 
-	 * @param date
-	 * @return
+	 * Generate next day fajr time
+	 * @param date GregorianCalendar date
+	 * @return next day fajr time
 	 */
 	public Prayer getNextDayFajr(GregorianCalendar date) {
 		return getNextDayFajr(new SimpleDate(date));
 	}
 	
 	/**
-	 * 
-	 * @param date
-	 * @return
+	 * Generate next day fajr time
+	 * @param date SimpleDate date
+	 * @return next day fajr time
 	 */
 	public Prayer getNextDayFajr(SimpleDate date) {
 		
@@ -740,8 +743,11 @@ public class Jitl {
 	
 	/* Obtaining the direction of the shortest distance towards Qibla by uMath.sing the
 	 * great circle formula */
+	
 	/**
-	 * 
+	 * generate qibla direction
+	 * @param loc location where to calculate
+	 * @return a Dms object containg qibla direction 
 	 */
 	static public Dms getNorthQibla(Location loc) {
 		/* xxxthamer: reduce Utils.DEG_TO_RAD usage */
@@ -758,24 +764,24 @@ public class Jitl {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * generate qibla direction
+	 * @return a Dms object containing qibla direction for the current location
 	 */
 	public Dms getNorthQibla() {
 		return getNorthQibla(loc);
 	}
 	
 	/**
-	 * 
-	 * @return
+	 *  Major version of Jitl
+	 * @return Jitl major version
 	 */
 	public static int getMajorVersion() {
 		return VERSION_MAJOR;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 *  Minor version of Jitl
+	 * @return Jitl minor version
 	 */
 	public static int getMinorVersion() {
 		return VERSION_MINOR;
